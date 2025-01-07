@@ -13,5 +13,5 @@ It is EXPERIMENTAL (i.e. just for fun), and as such many parts of it are unfinis
 
 BACKGROUND:
 
-This RF modeling software was originally written several years ago to help me in the development of ground penetrating radar systems. 
+I originally wrote much of this RF modeling software several years ago to help me in the development of ground penetrating radar systems. 
 
