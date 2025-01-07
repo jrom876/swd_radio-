@@ -8,7 +8,7 @@ class DDS {
 		float		clk_in; 	// Freq input from clock
 		float		fout; 		// Freq outputs of DDS
 		int			selector;	// 3-bit frequency selector	
-    public:  								
+	public:  								
 		struct DDSynth {			// Direct Digital Synthesizer
 			float 		clk_in; 	// Freq input from clock
 			float 		fout; 		// Freq output of DDS
@@ -22,7 +22,7 @@ class DDS {
 		/// DESTRUCTOR
 		~DDS();
 		
-		/// SETTERS        
+	/// SETTERS        
         float setClkIn		(float clk_in);        
         float setFout		(float freq_out);       
         float setSelector	(float selector); 
