@@ -1,13 +1,12 @@
 //	Package:	sw_def_radio
-//	File:		sw_def_radio.c
+//	File:		sw_def_radio.cpp
 // 	Purpose:	Define the Radio Class
 // 	Author:		jrom876
 
 /**
-	Copyright (C) 2019, 2021 
+	Copyright (C) 2019, 2021, 2024 
 	Jacob Romero, Creative Engineering Solutions, LLC
 	cesllc876@gmail.com
-	admin@jrom.io 
 
 	This program is free software; you can redistribute it
 	and/or modify it under the terms of the GNU General Public  
@@ -41,14 +40,31 @@
 #include "sw_def_radio.hpp"
 
 /// STANDARD DEFINITIONS FOR PROJECT SCICALC 
-#define PI	3.14159265358979323846 // ad infinitum
-#define LIGHT_SPEED		299792458 // meters per second
+#define PI			3.14159265358979323846 	// ad infinitum sine repeto
+#define LIGHT_SPEED		299792458.0 		// meters per second
+#define STACK_OVERFLOW		2147483648		// Hex 0x80000000
 #define DATA_SIZE 1000
 #define DELTA 1.0e-6
-#define KILO 1000
-#define MEGA 1000000
-#define GIGA 1000000000
-#define TERA 1000000000000 
+#define MILLI 1.0e-3
+#define MICRO 1.0e-6
+#define NANO 1.0e-9
+#define PICO 1.0e-12
+#define KILO 1.0e3
+#define MEGA 1.0e6
+#define GIGA 1.0e9
+#define TERA 1.0e12 
+#define true 1
+#define false 0
+
+/// STANDARD DEFINITIONS FOR LIGHT INTENSITY AND ELECTRIC FIELD CALCULATIONS
+#define AIR_REFRACTIVE_INDEX 1.00027717
+#define E0 8.8541878128*PICO				// Permittivity of Free Space in Farads per meter
+#define MU0 1.25663706212*MICRO				// Permeability of Free Space in Newtons per square meter
+#define EPSILON_0 1/(MU0*(LIGHT_SPEED*LIGHT_SPEED))	// Permittivity of Free Space Equation
+#define E_CONSTANT 1/(4*PI*EPSILON_0)
+#define ELECTRON_CHARGE 1.6e-19 			// Charge of an electron in Coulombs
+#define RADIUS_HELIUM_ATOM 26.5e-12			// Radius of a Helium atom in meters
+
 #define TXT_FILE_LB "linkBudgetData.txt"
 
 #define PLF(deg) pow(cos(deg*(PI/180)),2) 	// Polarization Loss Factor
@@ -64,9 +80,9 @@ float radarXSect, antGain;
 float tempf;	// Needed for writing data to file
 //int exitFlag = 0;
 
-///*************
+///********************
 ///	THE SIGNAL
-///*************
+///********************
 
 struct RX_SIGNAL {
 	float 			PtxdBm;		// Tx Power in dBm
@@ -84,8 +100,8 @@ struct RX_SIGNAL {
 struct RECEIVER {
 	struct RX_SIGNAL 	rx_signal;	// Rx Signal
 	struct ANTENNA		antenna;	// Antenna 
-	float 				freq; 		// Center freq of RX
-	float 				bw;			// Bandwidth of RX
+	float 			freq; 		// Center freq of RX
+	float 			bw;			// Bandwidth of RX
 };
 
 struct UNIT_VECTOR {
@@ -105,7 +121,7 @@ struct UNIT_VECTOR {
  *  given the following parameters:
  *		freq		Signal Frequency in GHz
  * 		dist		Distance to Target in km
- * 		rxs			radar target cross-sectional area
+ * 		rxs		radar target cross-sectional area
 **/
 
 float twoWayPathLossDB(float freq, float dist, float rxs){
@@ -126,10 +142,10 @@ float twoWayPathLossDB(float freq, float dist, float rxs){
 
 /** rxPwrWatts(float Pt, float GtdB, float GrdB, float R, float freq)
  * 	Returns RX Signal Strength in Watts given the following parameters:
- *		Pt			Tx Power in Watts
+ *		Pt		Tx Power in Watts
  * 		Gtdb		Gain of TX Antenna in dB
  * 		Grdb		Gain of RX Antenna in dB
- * 		R			Distance to Target in km
+ * 		R		Distance to Target in km
  * 		freq		Signal Frequency in GHz
 **/
 
@@ -145,7 +161,7 @@ float rxPwrWatts(float Pt, float GtdB, float GrdB, float R, float freq){
  *		PtdBm		Tx Power in dBm
  * 		Gtdb		Gain of TX Antenna in dB
  * 		Grdb		Gain of RX Antenna in dB
- * 		R			Distance to Target in km
+ * 		R		Distance to Target in km
  * 		freq		Signal Frequency in GHz
 **/
 
@@ -235,7 +251,7 @@ double sqrt(double num){
 ////////////////////////////////
 char * floatToStringLB(float f){
 	char buffer[DATA_SIZE];
-    return gcvt(f,DATA_SIZE,buffer);
+	return gcvt(f,DATA_SIZE,buffer);
 }
 
 void storeDataInFileLB(float input){
