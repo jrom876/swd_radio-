@@ -3,7 +3,7 @@
 #define SW_DEF_RADIO_HPP
 
 /**
-	Copyright (C) 2019, 2021, 2024
+	Copyright (C) 2024
 	Jacob Romero, Creative Engineering Solutions, LLC
 	cesllc876@gmail.com
 
