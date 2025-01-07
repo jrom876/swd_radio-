@@ -11,7 +11,7 @@ class OUTAMP {
 		float		noise; 		// Output Amp noise in dB
 		float		zout;		// Output Impedance, assume 50 Ohms	
 		
-    public:	    	
+	public:	    	
 		struct Outamp {
 			float 		freq; 		// Current freq setting of TX Output Amp
 			float 		pwr_limit; 	// Power limit in Watts
@@ -34,10 +34,10 @@ class OUTAMP {
         float setNoise		(float noise);  
         
         /// GETTERS           
-        float getFreq() 	{ printf("\nOutput amp Frequency:\t%.2f\n",freq); 		return freq; }         
-        float getPwrLimit() { printf("Output amp Power Limit:\t%.2f\n",pwr_limit); 	return pwr_limit; }         
-        float getGain() 	{ printf("Output amp Gain Limit:\t%.2f\n",gain);		return gain; } 
-        float getNoise() 	{ printf("Output amp Noise:\t%f\n",noise); 				return noise; }   
+        float getFreq() 	{ printf("\nOutput amp Frequency:\t%.2f\n",freq); return freq; }         
+        float getPwrLimit() { printf("Output amp Power Limit:\t%.2f\n",pwr_limit); return pwr_limit; }         
+        float getGain() 	{ printf("Output amp Gain Limit:\t%.2f\n",gain); return gain; } 
+        float getNoise() 	{ printf("Output amp Noise:\t%f\n",noise); return noise; }   
        
 };
 
