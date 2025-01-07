@@ -2,9 +2,9 @@ EXPERIMENTAL SOFTWARE DEFINED RADIO
 
 This project is a C++ OOP Software Defined Radio, complete with Transmitter, Receiver, and Antenna classes. 
 
-I wrote this version in my spare time over the last year.
-
 There are also makefiles and shell scripts to compile and run it all with just a few keystrokes.
+
+I wrote this version in my spare time over the last year.
 
 I will add unit tests in the near future.
 
