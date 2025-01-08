@@ -54,7 +54,7 @@ class ANTENNA {
 	float 		gain; 	// Gain of RX Antenna in dB
 	float 		freq;	// Center Frequency in MHz
 	float 		eff;	// Antenna Efficiency in %
-	float 		bw;		// Antenna Bandwidth in GHz
+	float 		bw;	// Antenna Bandwidth in GHz
 	float 		area;	// Effective Aperature Area	
 	float 		zin;	// Impedance in Ohms
 	
