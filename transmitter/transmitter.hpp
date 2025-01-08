@@ -20,7 +20,7 @@ class TRANSMITTER {
 		float 		zout;		// TX Line Impedance in Ohms
 		float 		pwr_limit; 	// Power Limit in Watts	
 		
-    public:
+	public:
 		struct Output_Amp {
 			float 		freq; 		// Current freq setting of TX Output Amp
 			float 		pwr_limit; 	// Power limit in Watts
