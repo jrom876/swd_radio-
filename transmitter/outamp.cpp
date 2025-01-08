@@ -1,6 +1,6 @@
 
 //	Package:	sw_def_radio
-//	File:		outamp.c
+//	File:		outamp.cpp
 // 	Purpose:	Define the Transmitter's Output Amplifier Class
 // 	Author:		jrom876
 
