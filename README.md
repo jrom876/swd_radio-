@@ -4,11 +4,11 @@ This experiment is a C++ OOP Software Defined Radio, complete with Transmitter, 
 
 There are also makefiles and shell scripts to compile and run it all with just a few keystrokes.
 
-I wrote this in my spare time over the last year.
+This is just a fun project I have been building in my spare time over the last year.
 
 I will add unit tests in the near future.
 
-It is EXPERIMENTAL (i.e. just for fun), and as such many parts of it are unfinished.
+It is EXPERIMENTAL (i.e. just for fun), and as such many parts are unfinished.
 
 
 BACKGROUND:
