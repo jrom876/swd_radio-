@@ -1,6 +1,6 @@
 
 //	Package:	sw_def_radio
-//	File:		dds.c
+//	File:		dds.cpp
 // 	Purpose:	Define the Transmitter's Direct Digital Synthesizer Class
 // 	Author:		jrom876
 
