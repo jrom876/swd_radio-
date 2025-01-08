@@ -1,6 +1,6 @@
 
 //	Package:	sw_def_radio
-//	File:		attenuator.c
+//	File:		attenuator.cpp
 // 	Purpose:	Define the Transmitter's Attenuator Class
 // 	Author:		jrom876
 
