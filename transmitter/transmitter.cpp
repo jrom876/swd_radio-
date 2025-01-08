@@ -35,19 +35,35 @@
 using namespace std;
 
 /// STANDARD DEFINITIONS FOR PROJECT SCICALC 
-#define PI	3.14159265358979323846 // ad infinitum
-#define LIGHT_SPEED		299792458 // meters per second
+#define PI		3.14159265358979323846 	// ad infinitum sine repeto
+#define LIGHT_SPEED	299792458.0 		// meters per second
+#define STACK_OVERFLOW	2147483648		// Hex 0x80000000
 #define DATA_SIZE 1000
 #define DELTA 1.0e-6
-#define KILO 1000
-#define MEGA 1000000
-#define GIGA 1000000000
-#define TERA 1000000000000 
+#define MILLI 1.0e-3
+#define MICRO 1.0e-6
+#define NANO 1.0e-9
+#define PICO 1.0e-12
+#define KILO 1.0e3
+#define MEGA 1.0e6
+#define GIGA 1.0e9
+#define TERA 1.0e12 
+#define true 1
+#define false 0
+
+/// STANDARD DEFINITIONS FOR LIGHT INTENSITY AND ELECTRIC FIELD CALCULATIONS
+#define AIR_REFRACTIVE_INDEX 	1.00027717
+#define E0 8.8541878128*PICO				// Permittivity of Free Space in Farads per meter
+#define MU0 1.25663706212*MICRO				// Permeability of Free Space in Newtons per square meter
+#define EPSILON_0 1/(MU0*(LIGHT_SPEED*LIGHT_SPEED))	// Permittivity of Free Space Equation
+#define E_CONSTANT 1/(4*PI*EPSILON_0)
+#define ELECTRON_CHARGE 1.6e-19 			// Charge of an electron in Coulombs
+	
 #define TXT_FILE_LB "transmitter_data.txt"
 
 #define PLF(deg) pow(cos(deg*(PI/180)),2) 	// Polarization Loss Factor
 #define FRBW(frange,cfreq) (frange/cfreq)	// Fractional Bandwidth of Antenna
-#define UV_MAG(x,y,z) sqrt((x*x)+(y*y)+(z*z)) // Unit Vector Magnitude
+#define UV_MAG(x,y,z) sqrt((x*x)+(y*y)+(z*z)) 	// Unit Vector Magnitude
 #define MAX_NUM 100	// The maximum number of iterations
 
 /////////////
@@ -62,18 +78,18 @@ OUTAMP::Outamp DUMMY_OUTAMP = {1.2,250,20,-85,50};
 
 // Default Constructor
 TRANSMITTER::TRANSMITTER() {
-	TRANSMITTER::outamp = {1.2,250,35,-85.0,50}; 
-	TRANSMITTER::preamp = {1.2,250,27,-85.0,50};
-	TRANSMITTER::atten = {1.2,1.0,50.0};
-	TRANSMITTER::dds = {1.2,1.2,2};
-	TRANSMITTER::clock = {1.2, 2.5};
-	TRANSMITTER::tx 		= DUMMY_TX;
-	TRANSMITTER::freq 		= 1.2; 	// Current freq settingin GHz
-	TRANSMITTER::gain 		= 62.0; // gain in dB
-	TRANSMITTER::dist		= 50.0; // RX distance from Source
-	TRANSMITTER::low		= 0.6;	// Lower edge of Bandwidth
-	TRANSMITTER::high		= 1.8;	// Upper edge of Bandwidth
-	TRANSMITTER::zout		= 50.0;	// Output Impedance in Ohms
+	TRANSMITTER::outamp 	= {1.2,250,35,-85.0,50}; 
+	TRANSMITTER::preamp 	= {1.2,250,27,-85.0,50};
+	TRANSMITTER::atten 	= {1.2,1.0,50.0};
+	TRANSMITTER::dds 	= {1.2,1.2,2};
+	TRANSMITTER::clock 	= {1.2, 2.5};
+	TRANSMITTER::tx 	= DUMMY_TX;
+	TRANSMITTER::freq 	= 1.2; 	// Current freq settingin GHz
+	TRANSMITTER::gain 	= 62.0; // gain in dB
+	TRANSMITTER::dist	= 50.0; // RX distance from Source
+	TRANSMITTER::low	= 0.6;	// Lower edge of Bandwidth
+	TRANSMITTER::high	= 1.8;	// Upper edge of Bandwidth
+	TRANSMITTER::zout	= 50.0;	// Output Impedance in Ohms
 	
 };
 
@@ -84,15 +100,15 @@ TRANSMITTER::~TRANSMITTER() {};
 TRANSMITTER::TRANSMITTER(struct Transmitter tx1) {
 	TRANSMITTER::outamp 	= tx1.outamp;	// Test struct that holds our receiver data
 	TRANSMITTER::preamp 	= tx1.preamp;	// Test struct that holds our receiver data
-	TRANSMITTER::atten 		= tx1.atten;	// Test struct that holds our receiver data
-	TRANSMITTER::dds 		= tx1.dds;		// Test struct that holds our receiver data
-	TRANSMITTER::tx 		= tx1;			// Test struct that holds our receiver data
-	TRANSMITTER::freq 		= freq; 		// Current freq setting of RX in GHz
-	TRANSMITTER::gain 		= gain; 		// Current freq setting of RX in GHz
-	TRANSMITTER::dist		= dist; 		// RX distance from Source
-	TRANSMITTER::low		= low;		// Lower edge of Bandwidth of RX
-	TRANSMITTER::high		= high;		// Upper edge of Bandwidth of RX
-	TRANSMITTER::zout		= zout;		// Output Impedance in Ohms
+	TRANSMITTER::atten 	= tx1.atten;	// Test struct that holds our receiver data
+	TRANSMITTER::dds 	= tx1.dds;	// Test struct that holds our receiver data
+	TRANSMITTER::tx 	= tx1;		// Test struct that holds our receiver data
+	TRANSMITTER::freq 	= freq; 	// Current freq setting of RX in GHz
+	TRANSMITTER::gain 	= gain; 	// Current freq setting of RX in GHz
+	TRANSMITTER::dist	= dist; 	// RX distance from Source
+	TRANSMITTER::low	= low;		// Lower edge of Bandwidth of RX
+	TRANSMITTER::high	= high;		// Upper edge of Bandwidth of RX
+	TRANSMITTER::zout	= zout;		// Output Impedance in Ohms
 	
 };
 
@@ -101,21 +117,21 @@ TRANSMITTER::TRANSMITTER(
 	struct Output_Amp 	oa,
 	struct Pre_Amp 		pa,
 	struct Attenuator 	att,
-	struct DDS 			dds,
+	struct DDS 		dds,
 	struct Clock 		clk) {
 		TRANSMITTER::outamp 	= oa;	
 		TRANSMITTER::preamp 	= pa;	
-		TRANSMITTER::atten 		= att;	
-		TRANSMITTER::dds 		= dds;		
-		TRANSMITTER::clock 		= clk;	
-};
+		TRANSMITTER::atten 	= att;	
+		TRANSMITTER::dds 	= dds;		
+		TRANSMITTER::clock 	= clk;	
+	};
 
 // Parameterized Constructor
 TRANSMITTER::TRANSMITTER(
 	OUTAMP			oa, 
 	PREAMP			pa,
 	ATTENUATOR		att,
-	DDS				ds,
+	DDS			ds,
 	CLOCK			clk) {};
 			
 /** 
@@ -201,13 +217,13 @@ int main(int argc, char const *argv[]) {
 	//~ t2.txPwrWatts(100.0, 10.0, 10.0, 50.0, 1.2);
 	//~ t2.txPwrDBM(20, 10.0, 10.0, 50.0, 1.2);
 	//~ RECEIVER rcvr2 = RECEIVER(
-					//~ RECEIVER::horiz, // Polarity
+					//~ RECEIVER::horiz, 	// Polarity
 					//~ RECEIVER::mono,	// Type
-					//~ 1.0,			// Gain
-					//~ 2.4,			// Freq
-					//~ 0.9,			// Efficiency
-					//~ 1.0,			// Bandwidth
-					//~ 0.01);			// Aperature Effective Area
+					//~ 1.0,		// Gain
+					//~ 2.4,		// Freq
+					//~ 0.9,		// Efficiency
+					//~ 1.0,		// Bandwidth
+					//~ 0.01);		// Aperature Effective Area
 	
 	//~ rcvr1.setPol(rcvr1.getPol());
 	//~ ant1.setType(ant1.getType());
