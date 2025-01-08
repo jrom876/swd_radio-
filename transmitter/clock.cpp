@@ -1,6 +1,6 @@
 
 //	Package:	sw_def_radio
-//	File:		clock.c
+//	File:		clock.cpp
 // 	Purpose:	Define the Transmitter's Clock Class
 // 	Author:		jrom876
 
