@@ -1,6 +1,6 @@
 
 //	Package:	sw_def_radio
-//	File:		preamp.c
+//	File:		preamp.cpp
 // 	Purpose:	Define the Transmitter's Preamplifier Class
 // 	Author:		jrom876
 
