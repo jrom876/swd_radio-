@@ -1,6 +1,6 @@
 
 //	Package:	sw_def_radio
-//	File:		receiver.c
+//	File:		receiver.cpp
 // 	Purpose:	Define the Receiver Class
 // 	Author:		jrom876
 
