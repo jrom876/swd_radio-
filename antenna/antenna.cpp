@@ -1,6 +1,6 @@
 
 //	Package:	sw_def_radio
-//	File:		antenna.c
+//	File:		antenna.cpp
 // 	Purpose:	Define the Antenna Class
 // 	Author:		jrom876
 
