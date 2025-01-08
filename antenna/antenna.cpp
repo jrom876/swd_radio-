@@ -111,12 +111,13 @@ ANTENNA::ANTENNA(enum ANT_POL p,enum ANT_TYPE t,float g,float f,float e,float b,
 	gain 	= g; 	// Gain of RX Antenna in dB
 	freq 	= f;	// Center Frequency in MHz
 	eff 	= e;	// Antenna Efficiency %
-	bw 		= b;	// Antenna Bandwidth
+	bw 	= b;	// Antenna Bandwidth
 	area 	= a;	// Effective Aperature Area
 	zin 	= z;	// Impedance of Antenna
 };
 
 // Antenna Gain - calculated using frequency
+
 float ANTENNA::antGainFromFreqGHz(float efficiency, float aperature_area, float freqGHz){
 	float lam = LIGHT_SPEED/(freqGHz*GIGA);
 	//~ float lam = getLambda(freq);
@@ -128,6 +129,7 @@ float ANTENNA::antGainFromFreqGHz(float efficiency, float aperature_area, float 
 /// Aeff = ((lam^2)/(4*pi)) * Gain
 /// Aeff = ((c^2)/(4*pi*f)) * Gain	
 // Antenna Aeff - Effective Aperature Area
+
 float ANTENNA::calcAeff(float freqGHz){
 	float lam = LIGHT_SPEED/(freqGHz*GIGA);
 	float gainer = getGain();
