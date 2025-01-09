@@ -8,7 +8,7 @@ class ATTENUATOR {
 		float 		freq_in; 	// Current freq setting of Attenuator
 		float 		atten; 		// Attenuator setting, 2^7 range (?)	
 		
-    public:		
+	public:		
 		struct Attenuator {
 			float 		freq_in; 	// Current freq setting of Attenuator
 			float 		atten; 		// TX attenuator setting, 2^7 range
