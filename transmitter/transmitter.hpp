@@ -51,7 +51,7 @@ class TRANSMITTER {
 					
 		struct Clock {			// VCO - Frequency Standard
 			float 		freq; 	// Current freq setting of Clock
-			float 		jitter; 	// TX attenuation
+			float 		jitter; // TX attenuation
 			float 		noise;	// Output Impedance, assume 50 Ohms
 		};
 		
@@ -79,7 +79,7 @@ class TRANSMITTER {
 		struct Attenuator	atten;	// 
 		struct DDS		dds;	// 
 		struct Clock		clock;	//
-		struct Transmitter	tx;		// TX data holder
+		struct Transmitter	tx;	// TX data holder
 
 	
 		/// CONSTRUCTORS
@@ -105,10 +105,10 @@ class TRANSMITTER {
 		/// FUNCTIONS		
 		/** float txPwrWatts(float Pt, float GtdB, float GrdB, float R, float freq)
 		 * 	Returns TX Signal Strength in Watts given the following parameters:
-		 *		Pt			Tx Power in Watts
+		 *		Pt		Tx Power in Watts
 		 * 		Gtdb		Gain of TX Antenna in dB
 		 * 		Grdb		Gain of RX Antenna in dB
-		 * 		R			Distance to Target in km
+		 * 		R		Distance to Target in km
 		 * 		freq		Signal Frequency in GHz
 		**/
 		float txPwrWatts(float Pt, float GtdB, float GrdB, float R, float freq);
@@ -118,7 +118,7 @@ class TRANSMITTER {
 		 *		PtdBm		Tx Power in dBm
 		 * 		Gtdb		Gain of TX Antenna in dB
 		 * 		Grdb		Gain of RX Antenna in dB
-		 * 		R			Distance to Target in km
+		 * 		R		Distance to Target in km
 		 * 		freq		Signal Frequency in GHz
 		**/
 		float txPwrDBM(float PtdBm, float GtdB, float GrdB, float R, float freq);
