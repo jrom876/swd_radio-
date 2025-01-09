@@ -11,7 +11,7 @@ class PREAMP {
 		float 		noise; 		// Pre Amp noise in dB
 		float 		zout;		// Pre Impedance, assume 50 Ohms	
 		
-    public:	
+	public:	
  		struct Preamp {
 			float 		freq; 		// Current freq setting of TX Output Amp
 			float 		pwr_limit; 	// Power limit in Watts
