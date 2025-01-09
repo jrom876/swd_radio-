@@ -13,8 +13,8 @@
 using namespace std;
 
 /// STANDARD DEFINITIONS FOR PROJECT SCICALC 
-#define PI	3.14159265358979323846 	// ad infinitum sine repeto
-#define LIGHT_SPEED		299792458.0 		// meters per second
+#define PI		3.14159265358979323846 	// ad infinitum sine repeto
+#define LIGHT_SPEED	299792458.0 		// meters per second
 #define STACK_OVERFLOW	2147483648		// Hex 0x80000000
 #define DATA_SIZE 1000
 #define DELTA 1.0e-6
