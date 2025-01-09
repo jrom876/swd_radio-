@@ -8,7 +8,7 @@ class CLOCK {
 		float 		fout; 	// GHz
 		float 		control_volt; 	// Volts DC	
 			
-    public:	
+	public:	
     	
 		struct Clock {
 			float 		fout; 	
