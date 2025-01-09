@@ -8,9 +8,9 @@
 // https://stackoverflow.com/questions/559522/separate-header-files-for-concrete-classes-c
 // https://stackoverflow.com/questions/18749375/c-calling-objects-from-another-class
 
-///*************
+///***********************
 ///	THE TRANSMITTER
-///*************
+///***********************
 /**
  * Power Density: p = Pt/(4*PI*R^2)
  * 
