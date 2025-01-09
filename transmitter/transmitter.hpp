@@ -60,7 +60,7 @@ class TRANSMITTER {
 			Output_Amp	outamp;
 			Pre_Amp		preamp;
 			Attenuator	atten;
-			DDS			dds;
+			DDS		dds;
 			Clock		clock;
 			
 		};
@@ -69,7 +69,7 @@ class TRANSMITTER {
 			Output_Amp	outamp;
 			Pre_Amp		preamp;
 			Attenuator	atten;
-			DDS			dds;
+			DDS		dds;
 			Clock		clock;
 		} tx_module; 
 		
@@ -77,7 +77,7 @@ class TRANSMITTER {
 		struct Output_Amp	outamp;	// 
 		struct Pre_Amp		preamp;	// 
 		struct Attenuator	atten;	// 
-		struct DDS			dds;	// 
+		struct DDS		dds;	// 
 		struct Clock		clock;	//
 		struct Transmitter	tx;		// TX data holder
 
@@ -90,13 +90,13 @@ class TRANSMITTER {
 		TRANSMITTER(struct Output_Amp	outamp, 
 					struct Pre_Amp		preamp,
 					struct Attenuator	atten,
-					struct DDS			dds,
+					struct DDS		dds,
 					struct Clock		clock);
 		
 		TRANSMITTER(OUTAMP			oa, 
 					PREAMP			pa,
 					ATTENUATOR		att,
-					DDS				dds,
+					DDS			dds,
 					CLOCK			clk);
 				
 		/// DESTRUCTOR
