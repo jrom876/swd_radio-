@@ -6,7 +6,7 @@ There are also makefiles and shell scripts to compile and run it all with just a
 
 Unit tests will be added in the near future.
 
-It is EXPERIMENTAL (i.e. just for fun), and as such many parts are unfinished and the code is subject to sudden and nebulous change.
+It is EXPERIMENTAL (i.e. just for fun), and as such many parts are unfinished and untested, there are tons of mistakes that need correction, and the code is subject to sudden and nebulous change.
 
 
 BACKGROUND:
