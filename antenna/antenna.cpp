@@ -128,7 +128,7 @@ float ANTENNA::antGainFromFreqGHz(float efficiency, float aperature_area, float 
 
 /// Aeff = ((lam^2)/(4*pi)) * Gain
 /// Aeff = ((c^2)/(4*pi*f)) * Gain	
-// Antenna Aeff - Effective Aperature Area
+// Antenna Aeff == Effective Aperature Area
 
 float ANTENNA::calcAeff(float freqGHz){
 	float lam = LIGHT_SPEED/(freqGHz*GIGA);
@@ -137,7 +137,8 @@ float ANTENNA::calcAeff(float freqGHz){
 	printf("Antenna Effective Area = %f\n\n",aeff_result); // DBPRINT
 	return aeff_result;
 };
-           
+
+/// TODO: make these setters return booleans instead of floats
 float ANTENNA::setPol(enum ANT_POL p){pol = p;return pol;};          
 float ANTENNA::setType(enum ANT_TYPE t){type = t;return type;};          
 float ANTENNA::setGain(float g){gain = g;return gain;};           
