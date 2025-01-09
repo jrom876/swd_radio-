@@ -7,7 +7,7 @@ class DDS {
 	private:
 		float		clk_in; 	// Freq input from clock
 		float		fout; 		// Freq outputs of DDS
-		int			selector;	// 3-bit frequency selector	
+		int		selector;	// 3-bit frequency selector	
 	public:  								
 		struct DDSynth {			// Direct Digital Synthesizer
 			float 		clk_in; 	// Freq input from clock
@@ -30,7 +30,7 @@ class DDS {
         /// GETTERS           
         float getClkIn() 	{ printf("DDS clk_in:\t%.2f\n",fout); return clk_in; }         
         float getFout() 	{ printf("DDS fout:\t%.2f\n",fout); return fout; } 
-        float getSelector() { printf("DDS selector:\t%d\n",selector); return selector; }   
+        float getSelector() 	{ printf("DDS selector:\t%d\n",selector); return selector; }   
        
 };
 
