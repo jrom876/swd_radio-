@@ -81,10 +81,10 @@ RFSWITCH::~RFSWITCH() {};
 RFSWITCH::RFSWITCH(struct RFSwitch att) {
 	RFSWITCH::freq_in 	= att.freq_in;	// 
 	RFSWITCH::ampl_in 	= att.ampl_in;	// 
-	RFSWITCH::swt 		= att.swt;		//		
+	RFSWITCH::swt 		= att.swt;	//		
 	RFSWITCH::setpt 	= att.setpt;	//		
 	RFSWITCH::atten 	= att.atten;	//		
-	RFSWITCH::mask 		= att.mask;		//	
+	RFSWITCH::mask 		= att.mask;	//	
 };
 
 /////////////////////////
@@ -95,12 +95,12 @@ void RFSWITCH::setFin(float f)	{
 	//~ printf("%.2f\n",freq_in);
 }; 
        
-void RFSWITCH::setAtten(uint8_t a)	{ 
+void RFSWITCH::setAtten(uint8_t a) { 
 	RFSWITCH::atten = a;
 	//~ printf("%.2f\n",atten);
 }; 
      
-void RFSWITCH::setSwitch(bool s)	{ 
+void RFSWITCH::setSwitch(bool s) { 
 	RFSWITCH::swt = s;
 	//~ printf("%d\n",swt);
 }; 
