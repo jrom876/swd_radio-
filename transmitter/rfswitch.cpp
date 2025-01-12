@@ -81,10 +81,10 @@ RFSWITCH::~RFSWITCH() {};
 RFSWITCH::RFSWITCH(struct RFSwitch att) {
 	RFSWITCH::freq_in 	= att.freq_in;	// 
 	RFSWITCH::ampl_in 	= att.ampl_in;	// 
-	RFSWITCH::swt 		= att.swt;	//		
+	RFSWITCH::swt 		= att.swt;		//		
 	RFSWITCH::setpt 	= att.setpt;	//		
 	RFSWITCH::atten 	= att.atten;	//		
-	RFSWITCH::mask 		= att.mask;	//	
+	RFSWITCH::mask 		= att.mask;		//	
 };
 
 /////////////////////////
@@ -95,12 +95,12 @@ void RFSWITCH::setFin(float f)	{
 	//~ printf("%.2f\n",freq_in);
 }; 
        
-void RFSWITCH::setAtten(uint8_t a) { 
+void RFSWITCH::setAtten(uint8_t a)	{ 
 	RFSWITCH::atten = a;
 	//~ printf("%.2f\n",atten);
 }; 
      
-void RFSWITCH::setSwitch(bool s) { 
+void RFSWITCH::setSwitch(bool s)	{ 
 	RFSWITCH::swt = s;
 	//~ printf("%d\n",swt);
 }; 
@@ -124,32 +124,32 @@ void RFSWITCH::setMask(std::bitset<8> m)	{
 /// GETTERS ///
      
 float RFSWITCH::getFin() { 
-	printf("\nRFSwitch freq_in:\t%.2f\n",RFSWITCH::freq_in);	// DBPRINT
+	//~ printf("\nRFSwitch freq_in:\t%.2f\n",RFSWITCH::freq_in);	// DBPRINT
 	return RFSWITCH::freq_in; 
 }; 
 
 uint8_t RFSWITCH::getAtten() { 
-	printf("RFSwitch atten:\t\t%d\n",RFSWITCH::atten);	// DBPRINT
+	//~ printf("RFSwitch atten:\t\t%d\n",RFSWITCH::atten);	// DBPRINT
 	return RFSWITCH::atten; 
 } 
   
 bool RFSWITCH::getSwitch() { 
-	printf("RFSwitch swt:\t\t%d\n",RFSWITCH::swt);	// DBPRINT
+	//~ printf("RFSwitch swt:\t\t%d\n",RFSWITCH::swt);	// DBPRINT
 	return RFSWITCH::swt; 
 }; 
     
 float RFSWITCH::getPt() { 
-	printf("RFSwitch setpt:\t\t%.2f\n",RFSWITCH::setpt); // DBPRINT
+	//~ printf("RFSwitch setpt:\t\t%.2f\n",RFSWITCH::setpt); // DBPRINT
 	return RFSWITCH::setpt; 
 }; 
 
 float RFSWITCH::getAmpIn() { 
-	printf("RFSwitch ampl_in:\t%.2f dBm\n",RFSWITCH::ampl_in);	// DBPRINT
+	//~ printf("RFSwitch ampl_in:\t%.2f dBm\n",RFSWITCH::ampl_in);	// DBPRINT
 	return RFSWITCH::ampl_in; 
 };
 
 std::bitset<8> RFSWITCH::getMask() { 
-	cout << "Mask in bitset<8>: " << RFSWITCH::mask << endl; // DBPRINT
+	//~ cout << "Mask in bitset<8>: " << RFSWITCH::mask << endl; // DBPRINT
 	return RFSWITCH::mask; 
 };
   
@@ -157,27 +157,31 @@ std::bitset<8> RFSWITCH::getMask() {
 /// dB converters ///
 
 float dBm_to_float (float dbm) {
-	float result = pow(10,((dbm-30)/10));
-	printf("%.2f dBm = %.2f W\n",dbm, result);	// DBPRINT
-	return result;
+	//~ float result = pow(10,((dbm-30)/10));
+	//~ printf("%.2f dBm = %.2f W\n",dbm, result);	// DBPRINT
+	//~ return result;
+	return pow(10,((dbm-30)/10));
 }
 
 float float_to_dBm (float flt) {
-	float dbm = (10*(log10(flt))) + 30;
-	printf("%.2f W = %.2f dBm\n",flt, dbm);	// DBPRINT
-	return dbm;
+	//~ float dbm = (10*(log10(flt))) + 30;
+	//~ printf("%.2f W = %.2f dBm\n",flt, dbm);	// DBPRINT
+	//~ return dbm;
+	return (10*(log10(flt))) + 30;
 }
 
 float dB_to_float (float db) {
-	float result = pow(10,((db)/10));
-	printf("%.2f dB = %.2f Watts\n",db, result); 	// DBPRINT
-	return result;
+	//~ float result = pow(10,((db)/10));
+	//~ printf("%.2f dB = %.2f Watts\n",db, result); 	// DBPRINT
+	//~ return result;
+	return pow(10,((db)/10));
 }
 
 float float_to_dB (float flt) {
-	float db = (10*(log10(flt)));
-	printf("%.2f Watts = %.2f dB\n",flt, db); 	// DBPRINT
-	return db;
+	//~ float db = (10*(log10(flt)));
+	//~ printf("%.2f Watts = %.2f dB\n",flt, db); 	// DBPRINT
+	//~ return db;
+	return (10*(log10(flt)));
 }
 
 ///////////////////////
@@ -189,6 +193,9 @@ bool RFSWITCH::flip_switch () {
 	//~ printf("swt after:\t\t%d\n",RFSWITCH::swt); // DBPRINT
 	return swt;
 }
+
+///////////////////////
+/// Bandwidth Tests ///
 
 bool checkFreqRange(float bw, float freq) {
 	bool result = ((freq<=(freq+(bw/2))) && (freq >=(freq-(bw/2))));
@@ -325,30 +332,4 @@ int main(int argc, char const *argv[]) {
 	
 	return 0;
 }
-
-
-// https://stackoverflow.com/questions/315948/c-catching-all-exceptions
-// https://en.cppreference.com/w/cpp/language/catch
-
-//~ try
-//~ {
-    //~ f();
-//~ }
-//~ catch (const std::overflow_error& e)
-//~ {} // this executes if f() throws std::overflow_error (same type rule)
-//~ catch (const std::runtime_error& e)
-//~ {} // this executes if f() throws std::underflow_error (base class rule)
-//~ catch (const std::exception& e)
-//~ {} // this executes if f() throws std::logic_error (base class rule)
-//~ catch (...)
-//~ {} // this executes if f() throws std::string or int or any other unrelated typ
-
-
-//// Comment these in for test
-//~ int adc_value=2456, adc_min=0, adc_max=4096;
-//~ float out_min=0, out_max=12, adcResult;
-// adcResult = ( (((adc_value - adc_min)*(out_max-out_min)) / (adc_max-adc_min)) + out_min);
-
-
-
 
