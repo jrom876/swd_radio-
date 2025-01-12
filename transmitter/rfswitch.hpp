@@ -14,16 +14,16 @@ class RFSWITCH {
 		bool 				swt; 		// output - High Speed Switch --> 0 == Off, 1 == On
 		float 				setpt; 		// input - Amplitude peak setpoint
 		uint8_t				atten; 		// output - Attenuator setting, 2^8 range 	
-		std::bitset<8> 		mask{0};	// input - Cutoff Set Point, 2^8 range 	
+		std::bitset<8> 			mask{0};	// input - Cutoff Set Point, 2^8 range 	
 		
-    public:		
+	public:		
 		struct RFSwitch {
 			float 			freq_in; 	// Current freq setting of RF Switch
 			float 			ampl_in; 	// Current amplitude reading of RF Switch
 			bool 			swt; 		// High Speed Switch --> 0 == Off, 1 == On
 			float			setpt; 		// Amplitude peak setpoint
 			uint8_t			atten; 		// TX attenuator setting, 2^8 range
-			std::bitset<8> 	mask;		// Cutoff Set Point, 2^8 range
+			std::bitset<8> 		mask;		// Cutoff Set Point, 2^8 range
 		};
 	
 		/// CONSTRUCTORS
@@ -34,10 +34,10 @@ class RFSWITCH {
 		~RFSWITCH();
 		
 		/// SETTERS            
-        virtual void setFin		(float);   
+        virtual void setFin	(float);   
         virtual void setAmpIn	(float);  
         virtual void setSwitch	(bool);  
-        virtual void setPt		(float);          
+        virtual void setPt	(float);          
         virtual void setAtten	(uint8_t);          
         virtual void setMask	(std::bitset<8>); 
         
@@ -51,7 +51,7 @@ class RFSWITCH {
         uint8_t getAtten();
         std::bitset<8> getMask();
         
-		/// dB converters
+	/// dB converters
         //~ float dBm_to_float (float dbm);
         //~ float float_to_dBm (float flt);
         //~ float dB_to_float (float db);
@@ -60,7 +60,7 @@ class RFSWITCH {
         bool flip_switch();
         
         bool checkFreqRange(float bw, float freq);
-		float getFreqRange(float low, float hi);
+	float getFreqRange(float low, float hi);
 		
         virtual bool compare_ain_to_setpt(void);
         virtual bool compare_ain_to_setpt(float, float, float);
