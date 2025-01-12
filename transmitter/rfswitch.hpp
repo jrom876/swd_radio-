@@ -33,7 +33,7 @@ class RFSWITCH {
 		/// DESTRUCTOR
 		~RFSWITCH();
 		
-		/// SETTERS            
+	/// SETTERS            
         virtual void setFin	(float);   
         virtual void setAmpIn	(float);  
         virtual void setSwitch	(bool);  
@@ -60,7 +60,7 @@ class RFSWITCH {
         bool flip_switch();
         
         bool checkFreqRange(float bw, float freq);
-	float getFreqRange(float low, float hi);
+		float getFreqRange(float low, float hi);
 		
         virtual bool compare_ain_to_setpt(void);
         virtual bool compare_ain_to_setpt(float, float, float);
@@ -69,11 +69,3 @@ class RFSWITCH {
 
 #endif
 
-
-        //~ bool setFin		(float f); 
-        //~ virtual void setFin	(float);   
-        //~ bool setAmpIn	(float ain);  
-        //~ bool setSwitch	(bool state);  
-        //~ bool setRefV	(float rv);          
-        //~ bool setAtten	(uint8_t a);          
-        //~ bool setSetPt	(std::bitset<8> setp); 
