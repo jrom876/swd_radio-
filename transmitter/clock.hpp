@@ -5,11 +5,12 @@
 
 class CLOCK {
 	private:
-		float 		fout; 	// GHz
-		float 		control_volt; 	// Volts DC	
 			
-	public:	
+    public:	
     	
+		float 		fout; 			// GHz
+		float 		control_volt; 	// Volts DC	
+		
 		struct Clock {
 			float 		fout; 	
 			float 		control_volt; 	
@@ -20,10 +21,14 @@ class CLOCK {
 		CLOCK(struct Clock clk);
 		
 		/// DESTRUCTOR
-		~CLOCK();
+		virtual ~CLOCK();
 		
 		/// SETTERS        
-        float setCVolt	(float v); 
+        //~ virtual float setFout	(float);       
+        //~ virtual float setCVolt	(float);  
+              
+        void setFout(float f)	{ fout = f; };       
+		void setCVolt(float cv)	{ control_volt = cv; }; 
         
         /// GETTERS           
         float getFout() 	{ printf("\nClock fout:\t%.2f\n",fout); return fout; } 
