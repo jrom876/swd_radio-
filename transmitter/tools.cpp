@@ -4,21 +4,6 @@
 // 	Purpose:	Define the Transmitter's Tools
 // 	Author:		jrom876
 
-/**
- * REQUIREMENTS:
- * 	0. must have a setpoint or reference voltage and a way to change it
- * 	1. must have a pk-pk signal amplitude input
- * 	2. must have a compare() function to trigger switch
- * 	3. must have a toggle switch function
- * 	4. public setters and getters
- * 	5. private uint8_t attenuator output to ATTENUATOR objects
- * 	6. assume neglegible pass through attenuation
- * 	7. assume 50 Ohms input and output Impedance
- * **/
-
-// g++ -g -std=c++20 -o rfswitch rfswitch.cpp -lm -lrt
-// https://en.cppreference.com/w/cpp/utility/bitset
-
 /// C++ Libraries
 #include <cmath>
 #include <cstdio>
