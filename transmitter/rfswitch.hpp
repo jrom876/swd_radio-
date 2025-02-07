@@ -1,5 +1,5 @@
 
-// attenuator.hpp
+// rfswitch.hpp
 #ifndef RFSWITCH_HPP
 #define RFSWITCH_HPP
 
@@ -39,10 +39,10 @@ class RFSWITCH {
 		virtual ~RFSWITCH();
 		
 		/// SETTERS            
-        virtual void setFin		(float);   
+        virtual void setFin	(float);   
         virtual void setAmpIn	(float);  
         virtual void setSwitch	(bool);  
-        virtual void setPt		(float);          
+        virtual void setPt	(float);          
         virtual void setAtten	(uint8_t);          
         virtual void setMask	(uint8_t); 
         
@@ -50,7 +50,7 @@ class RFSWITCH {
         void setBW(float bw);
         
         bool checkFreqRange(float bw, float freq);
-		float getFreqRange(float low, float hi);
+	float getFreqRange(float low, float hi);
 		
         
         /// GETTERS           
@@ -67,7 +67,7 @@ class RFSWITCH {
         virtual bool compare_ain_to_setpt(void);
         virtual bool compare_ain_to_setpt(float, float, float);
        
-		/// dB converters
+	/// dB converters
         //~ float dBm_to_float (float dbm);
         //~ float float_to_dBm (float flt);
         //~ float dB_to_float (float db);
@@ -75,11 +75,11 @@ class RFSWITCH {
         
         bool flip_switch();
         
-		float adjust_signal (float signal, float alpha);
-		float adjust_setpoint (float signal, float alpha);
+	float adjust_signal (float signal, float alpha);
+	float adjust_setpoint (float signal, float alpha);
 		
-		//~ float adc_calc (int adc_value, int adc_min, int adc_max,
-							//~ float out_min, float out_max);
+	//~ float adc_calc (int adc_value, int adc_min, int adc_max,
+			//~ float out_min, float out_max);
 							
         //~ float scaleAndShift (float adc_value, 
 					//~ float adc_min, 
@@ -87,7 +87,7 @@ class RFSWITCH {
 					//~ float out_min, 
 					//~ float adc_max);
 					
-		//~ float round_to_N(float val, int n);
+	//~ float round_to_N(float val, int n);
 };
 
 #endif
