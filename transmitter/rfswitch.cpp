@@ -27,32 +27,14 @@
 #include <cstddef>
 #include <iostream>
 #include <sstream>
+
+#include <limits>
+#include <numbers>
+
 #include "rfswitch.hpp"
+#include "tools.hpp"
 using namespace std;
 
-/// STANDARD DEFINITIONS FOR PROJECT SCICALC 
-#define PI		3.14159265358979323846 	// ad infinitum sine repeto
-#define LIGHT_SPEED	299792458.0 		// meters per second
-#define STACK_OVERFLOW	2147483648		// Hex 0x80000000
-#define DATA_SIZE 1000
-#define DELTA 1.0e-6
-#define MILLI 1.0e-3
-#define MICRO 1.0e-6
-#define NANO 1.0e-9
-#define PICO 1.0e-12
-#define KILO 1.0e3
-#define MEGA 1.0e6
-#define GIGA 1.0e9
-#define TERA 1.0e12 
-
-/// STANDARD DEFINITIONS FOR LIGHT INTENSITY AND ELECTRIC FIELD CALCULATIONS
-#define AIR_REFRACTIVE_INDEX 1.00027717
-#define E0 8.8541878128*PICO				// Permittivity of Free Space in Farads per meter
-#define MU0 1.25663706212*MICRO				// Permeability of Free Space in Newtons per square meter
-#define EPSILON_0 1/(MU0*(LIGHT_SPEED*LIGHT_SPEED))	// Permittivity of Free Space Equation
-#define E_CONSTANT 1/(4*PI*EPSILON_0)
-#define ELECTRON_CHARGE 1.6e-19 			// Charge of an electron in Coulombs
-#define RADIUS_HELIUM_ATOM 26.5e-12			// Radius of a Helium atom in meters 
 
 /////////////
 // Globals //
@@ -71,11 +53,15 @@ RFSWITCH::RFSWITCH() {
 	RFSWITCH::swt	 	= false;	// switch state, On/Off
 	RFSWITCH::setpt 	= 1.0;		// set point reference voltage
 	RFSWITCH::atten 	= 0x0; 		// uint8_t 8-bit attenuator outputmask
-	RFSWITCH::mask 		= {0x55};	// set point bitset<16> output
+	RFSWITCH::mask 		= 0x55;		// set point uint8_t output
+	
+	RFSWITCH::ref_v 	= 5.0;
+	RFSWITCH::hyster	= 0.05;
+	RFSWITCH::bandwidth	= freq_in / 10.0;
 };
 
 // DESTRUCTOR
-RFSWITCH::~RFSWITCH() {};
+RFSWITCH::~RFSWITCH() {std::cout << "RFSwitch Destructor\n";};
 
 // Parameterized Constructor
 RFSWITCH::RFSWITCH(struct RFSwitch att) {
@@ -100,7 +86,7 @@ void RFSWITCH::setAtten(uint8_t a)	{
 	//~ printf("%.2f\n",atten);
 }; 
      
-void RFSWITCH::setSwitch(bool s)	{ 
+void RFSWITCH::setSwitch(bool s = false)	{ 
 	RFSWITCH::swt = s;
 	//~ printf("%d\n",swt);
 }; 
@@ -114,10 +100,20 @@ void RFSWITCH::setAmpIn(float ain)	{
 	RFSWITCH::ampl_in = ain;
 }; 
        
-void RFSWITCH::setMask(std::bitset<8> m)	{ 
+void RFSWITCH::setMask(uint8_t m)	{ 
 	RFSWITCH::mask = m;
 	//~ printf("mask = %.2f\n",mask);
 	//~ cout << "Setting Point in bitset<8>: " << mask << endl;
+}; 
+         
+void RFSWITCH::setRefV(float rv)	{ 
+	RFSWITCH::ref_v = rv;
+	printf("Ref_V = %.2f\n",ref_v);
+}; 
+         
+void RFSWITCH::setBW(float bw)	{ 
+	RFSWITCH::bandwidth = bandwidth;
+	printf("bandwidth = %.2f\n",bandwidth);
 }; 
  
 ///////////////
@@ -129,87 +125,54 @@ float RFSWITCH::getFin() {
 }; 
 
 uint8_t RFSWITCH::getAtten() { 
-	//~ printf("RFSwitch atten:\t\t%d\n",RFSWITCH::atten);	// DBPRINT
+	printf("RFSwitch atten:\t\t%d\n",RFSWITCH::atten);	// DBPRINT
 	return RFSWITCH::atten; 
 } 
   
 bool RFSWITCH::getSwitch() { 
-	//~ printf("RFSwitch swt:\t\t%d\n",RFSWITCH::swt);	// DBPRINT
+	printf("RFSwitch swt:\t\t%d\n",RFSWITCH::swt);	// DBPRINT
 	return RFSWITCH::swt; 
 }; 
     
 float RFSWITCH::getPt() { 
-	//~ printf("RFSwitch setpt:\t\t%.2f\n",RFSWITCH::setpt); // DBPRINT
+	printf("RFSwitch setpt:\t\t%.2f\n",RFSWITCH::setpt); // DBPRINT
 	return RFSWITCH::setpt; 
 }; 
 
 float RFSWITCH::getAmpIn() { 
-	//~ printf("RFSwitch ampl_in:\t%.2f dBm\n",RFSWITCH::ampl_in);	// DBPRINT
+	printf("RFSwitch ampl_in:\t%.2f \n",RFSWITCH::ampl_in);	// DBPRINT
 	return RFSWITCH::ampl_in; 
 };
 
-std::bitset<8> RFSWITCH::getMask() { 
-	//~ cout << "Mask in bitset<8>: " << RFSWITCH::mask << endl; // DBPRINT
+uint8_t RFSWITCH::getMask() { 
+	//~ cout << "Mask: " << RFSWITCH::mask << endl; // DBPRINT
+	printf("RFSwitch mask:\t\t%d\n",RFSWITCH::mask); // DBPRINT
 	return RFSWITCH::mask; 
 };
-  
+    
+float RFSWITCH::getRefV() { 
+	printf("RFSwitch ref_v:\t\t%.2f\n",RFSWITCH::ref_v); // DBPRINT
+	return RFSWITCH::ref_v; 
+}; 
+
+float RFSWITCH::getBW() {
+	printf("RFSwitch bandwidth:\t\t%.2f\n",RFSWITCH::bandwidth); // DBPRINT
+	return RFSWITCH::bandwidth; 
+}
+
 /////////////////////
-/// dB converters ///
-
-float dBm_to_float (float dbm) {
-	//~ float result = pow(10,((dbm-30)/10));
-	//~ printf("%.2f dBm = %.2f W\n",dbm, result);	// DBPRINT
-	//~ return result;
-	return pow(10,((dbm-30)/10));
-}
-
-float float_to_dBm (float flt) {
-	//~ float dbm = (10*(log10(flt))) + 30;
-	//~ printf("%.2f W = %.2f dBm\n",flt, dbm);	// DBPRINT
-	//~ return dbm;
-	return (10*(log10(flt))) + 30;
-}
-
-float dB_to_float (float db) {
-	//~ float result = pow(10,((db)/10));
-	//~ printf("%.2f dB = %.2f Watts\n",db, result); 	// DBPRINT
-	//~ return result;
-	return pow(10,((db)/10));
-}
-
-float float_to_dB (float flt) {
-	//~ float db = (10*(log10(flt)));
-	//~ printf("%.2f Watts = %.2f dB\n",flt, db); 	// DBPRINT
-	//~ return db;
-	return (10*(log10(flt)));
-}
 
 ///////////////////////
 /// Flip the Switch ///
 
 bool RFSWITCH::flip_switch () {
-	//~ printf("swt before:\t\t%d\n",RFSWITCH::swt); // DBPRINT
+	printf("swt before:\t\t%d\n",RFSWITCH::swt); // DBPRINT
 	RFSWITCH::swt = !RFSWITCH::swt;
-	//~ printf("swt after:\t\t%d\n",RFSWITCH::swt); // DBPRINT
+	printf("swt after:\t\t%d\n",RFSWITCH::swt); // DBPRINT
 	return swt;
 }
 
 ///////////////////////
-/// Bandwidth Tests ///
-
-bool checkFreqRange(float bw, float freq) {
-	bool result = ((freq<=(freq+(bw/2))) && (freq >=(freq-(bw/2))));
-	printf("Is freq in Range? = %d\n", result);	// DBPRINT
-	return result;
-	//~ return ((freq<=(freq+(bw/2))) && (freq >=(freq-(bw/2))));;
-}
-
-float getFreqRange(float low, float hi) {
-	float diff = hi - low;
-	printf("diff = %.2f",diff);	// DBPRINT
-	return (diff);
-	//~ return (hi - low);
-}
 
 /////////////////////////////////
 /// Compare Signals - virtual ///
@@ -221,103 +184,298 @@ float getFreqRange(float low, float hi) {
 bool RFSWITCH::compare_ain_to_setpt() {	
 	bool match = false;
 	float hysteresis = 0.05;
-	float ain = dBm_to_float(RFSWITCH::ampl_in);	
+	//~ float ain = float_to_dBm(RFSWITCH::ampl_in);
+	float ain = RFSWITCH::ampl_in;	
 	
 	if (ain >= (RFSWITCH::setpt * (1 - hysteresis))) {
 		match = true; 
-		printf("match:\t\t%d\n",match);	// DBPRINT
+		printf("ain >= setpt:\t\t%d\n",match);	// DBPRINT
 	}
 	else if (ain < (RFSWITCH::setpt * (1 - hysteresis))) {
 		match = false; 
-		printf("match:\t\t%d\n",match);	// DBPRINT	
+		printf("ain < setp:\t\t%d\n",match);	// DBPRINT	
 	}	
+	setSwitch(match);
 	return match;
 	//~ return (dBm_to_float(RFSWITCH::ampl_in >= RFSWITCH::setpt);
 }
 
+
+
 bool RFSWITCH::compare_ain_to_setpt(float ain, float sp, float hys) {
 	bool match = false;
 	float hysteresis = hys;
-	ain = dBm_to_float(ain);
+	//~ ain = float_to_dBm(ain);
 	
 	if (ain >= (sp * (1 - hysteresis))) {
-		match = true; 
-		printf("match:\t\t%d\n",match);	// DBPRINT
+		match = true;
+		printf("ain >= setpt:\t\t%d\n",match);	// DBPRINT
 	}
 	else if (ain < (sp * (1 - hysteresis))) {
 		match = false; 
-		printf("match:\t\t%d\n",match);	// DBPRINT
-	}
+		printf("ain < setp:\t\t%d\n",match);	// DBPRINT
+	}	
+	setSwitch(match);
 	return match;
 }
+
 /////////////////////////////////
+
+/////////////////////////////////
+/////////////////////////////////
+
+/*
+ * General Tools from my Toolbox -- moved to tools.hpp
+ * */
+
+float adc_calc (int adc_value, 
+						int adc_min, int adc_max, 
+						float out_min, float out_max) {
+	float adcResult = (( ((adc_value - adc_min)*(out_max-out_min)) / (adc_max-adc_min) ) + out_min);	
+	printf("\nadcResult: %f\n\n", adcResult);
+	return adcResult;
+}
+
+/// Scaling and shifting function based on adc converter
+//~ //// adcResult = (( ((adc_value - adc_min)*(out_max-out_min)) / (adc_max-adc_min) ) + out_min);
+
+float scaleAndShift (float in_value, float in_max, float in_min, 
+					float out_max, float out_min) {
+	float ssResult = (( ((in_value - in_min)*(out_max-out_min)) / (in_max-in_min) ) + out_min);
+	printf("Scaled and shifted result:\t%.4f\n", ssResult);
+	return ssResult;
+}
+
+// https://stackoverflow.com/questions/25925290/c-round-a-double-up-to-2-decimal-places
+/// round_to_N(float val, int n) ==> this function truncates unruly doubles
+
+float round_to_N(float val, int n) {	
+	switch (n) {
+		case 1:
+			val = std::ceil(val * 10.0) / 10.0;
+			///~ printf("value = %f\n",val);
+			break;		
+		case 2:
+			val = (std::ceil(val * 100.0)) / 100.0;
+			////~ printf("value = %f\n",val);
+			break;
+		case 3:
+			val = (std::ceil(val * 1000.0)) / 1000.0;
+			////~ printf("value = %f\n",val);
+			break;
+			
+		case 4:
+			val = std::ceil(val * 10000.0) / 10000.0;
+			////~ printf("value = %f\n",val);
+			break;
+			
+		case 5:
+			val = std::ceil(val * 100000.0) / 100000.0;
+			////~ printf("value = %f\n",val);
+			break;
+		default:
+			break;
+	}	
+    ////~ double value = 0.123;
+    ////~ value = std::ceil(value * 100.0) / 100.0;
+    ////~ std::cout << value << std::endl; // prints 0.13
+    return val;
+}
+
+//~ /// dB converters ///
+
+//~ float dBm_to_float (float dbm) {
+	//~ float result = pow(10,((dbm-30)/10));
+	//~ printf("%.2f dBm = %.2f W\n",dbm, result);	// DBPRINT
+	//~ return result;
+	//~ ////~ return pow(10,((dbm-30)/10));
+//~ }
+
+//~ float float_to_dBm (float flt) {
+	//~ float dbm = (10*(log10(flt))) + 30;
+	//~ printf("%.2f W = %.2f dBm\n",flt, dbm);	// DBPRINT
+	//~ return dbm;
+	//~ ////~ return (10*(log10(flt))) + 30;
+//~ }
+
+//~ float dB_to_float (float db) {
+	//~ float result = pow(10,((db)/10));
+	//~ printf("%.2f dB = %.2f Watts\n",db, result); 	// DBPRINT
+	//~ return result;
+	//~ ////~ return pow(10,((db)/10));
+//~ }
+
+//~ float float_to_dB (float flt) {
+	//~ float db = (10*(log10(flt)));
+	//~ printf("%.2f Watts = %.2f dB\n",flt, db); 	// DBPRINT
+	//~ return db;
+	//~ ////~ return (10*(log10(flt)));
+//~ }
+
+//~ /// Bandwidth Tests ///
+
+//~ bool checkFreqRange(float bw, float freq) {
+	//~ bool result = ((freq<=(freq+(bw/2))) && (freq >=(freq-(bw/2))));
+	//~ printf("Is freq in Range? = %d\n", result);	// DBPRINT
+	//~ return result;
+	//~ ////~ return ((freq<=(freq+(bw/2))) && (freq >=(freq-(bw/2))));;
+//~ }
+
+//~ float getFreqRange(float low, float hi) {
+	//~ float diff = hi - low;
+	//~ printf("diff = %.2f",diff);	// DBPRINT
+	//~ return (diff);
+	//~ ////~ return (hi - low);
+//~ }
+
+
+
+/*
+ * End of General Tools from my Toolbox
+ * */
+
+
+
+/////////////////////////////////
+/////////////////////////////////
+
+/**
+ * ADJUSTERS -- using a Simplified IIR Filter to adjust values
+ * 
+ * This algorithm is VERY useful for embedded control systems!!
+ * It makes control system changes very smooth and fast.
+ * 
+ * Doctor Jeff's simplified IIR Filter with filtering factor alpha:
+ * 
+ * 		speed += alpha*(speed_target - speed);
+ * 
+ * if alpha == 0.5, we take 2 filter samples,
+ * if alpha == 0.2, we take 5 samples,
+ * if alpha == 0.1, we take 10 samples...
+ * You get the idea... 
+ * 
+ * alpha == filtering factor
+ * speed_target == setpoint, m/s
+ * speed == currently measured speed, m/s
+ * 
+ * */
+
+float RFSWITCH::adjust_signal (float signal, float alpha) {	
+	//~ signal = signal.setprecision(6);
+	//~ float hysteresis = 0.05;
+	//~ float att = (RFSWITCH::atten);
+	//~ printf("att signal = %.4f\n", att);
+	float lim = RFSWITCH::getPt();
+	printf("start signal = %.4f\n", signal);
+	while (signal != lim) {
+		signal += alpha*(lim - signal);
+		printf("signal = %.8f\tsetpoint = %.8f\n", signal, lim);
+	} 
+	printf("signal = %.8f\tsetpoint = %.8f\n", signal, lim);
+	return signal;
+} 
+
+float RFSWITCH::adjust_setpoint (float signal, float alpha) {		
+	printf("start signal = %.4f\n", signal);	
+	float hysteresis = RFSWITCH::hyster;	
+	//~ float hysteresis = 0.05;
+	signal = signal*(1.0 - hysteresis);
+	int count = 0;
+	float lim =  RFSWITCH::getPt() * (1.0 - hysteresis);
+	printf("end signal = %.4f\n", signal);
+	while (((lim) != ((1.0 + hysteresis) * signal)) && (count < 21)) {
+		lim += alpha*(signal - lim);
+		//~ printf("%d signal = %.8f\tsetpoint = %.8f\n", count, signal, lim);
+		printf("%d signal = %.8f\tsetpoint = %.8f\n", count, round_to_N(signal,3), round_to_N(lim, 4));
+		count += 1;
+	}
+	printf("%d signal = %.8f\tsetpoint = %.8f\n", count, signal, lim);
+	return lim;
+}
+
+
 /////////////////////////////////
 
 ////////////
 /// Main ///
 
 int main(int argc, char const *argv[]) {
-	
-	/// testing bitset masks ///	
-    //~ bitset<8> decimalBitset(15);
-    //~ bitset<8> testBitset(0);
-    //~ decimalBitset = (decimalBitset |= 0x53) &= 0xF2;
-    //~ testBitset = (testBitset |= 0xFF) &= 0x07;    
-    //~ cout << "decimalBitset: " << decimalBitset << endl;
-    //~ cout << "testBitset: " << testBitset << endl;
-    //~ cout << "testBitset[]: " << (testBitset &= decimalBitset) << endl;
-    ////~ cout << "testBitset[]: " << (testBitset &= 0x3FEE) << endl;    
-	/// end of testing bitset masks /// 
-    
+    //~ round_to_N(45.96666, 4); // DBPRINT -- testing this method
     // create test objects
 	RFSWITCH::RFSwitch testStruct = {1.2,1};
 	RFSWITCH t1 = RFSWITCH();
 	RFSWITCH t2 = RFSWITCH(testStruct);
 	RFSWITCH t3 = RFSWITCH(DUMMY_SW);
 	
-	// test converter functions ///	
+	/// testing converter functions ///	
 	//~ dBm_to_float(40.0);	
 	//~ float_to_dBm(10.0);   	
 	/// end of testing converter functions /// 
-		
-	/// test battery ///	
+	
+	/// testing scale and shift functions ///
+	//~ scaleAndShift (-0.097, 0.25, -0.25, 12.0, 0);
+	
+	/// test battery ///		
+	
+	t1.setRefV(5.0);
+	t1.getRefV();
+	t1.setAtten(0xFF);
+	t1.setMask(0x66);
+    adc_calc (t1.getAtten(), 0x0, 0xFF, 0.0, t1.getRefV());
+	t1.setAtten(0xFF & t1.getMask());
+    adc_calc (t1.getAtten(), 0x0, 0xFF, 0.0, t1.getRefV());
 	
 	t1.setFin(2.1);
 	t1.getFin();	
-	t1.setAmpIn(float_to_dBm(1.60));
+	//~ t1.setAmpIn(float_to_dBm(1.60));	
+	t1.setAmpIn(1.80);
 	t1.getAmpIn();
-		
-	t1.setSwitch(true);
+	
+	t1.setPt(1.55);
+	t1.getPt();
+	//~ t1.setSwitch(true);
 	t1.getSwitch();
 	//~ t1.flip_switch ();
 	//~ t1.flip_switch ();
-	t1.setPt(1.55);
-	t1.getPt();
 
-	t1.setAtten(64);
-	t1.getAtten();
-	t1.setMask(0x64);
-	t1.getMask();
+	//~ t1.setAtten(64);
+	//~ t1.getAtten();
+	//~ t1.setMask(0x64);
+	//~ t1.getMask();
+	
+	//~ t1.setRefV(12.0);
+	//~ t1.getRefV();
 
-	//~ t1.compare_ain_to_setpt();
-	t1.compare_ain_to_setpt(t1.getAmpIn(), t1.getPt(), 0.05);
+	printf("\nTesting adjust functions\n");	
+	t1.adjust_signal (t1.getAmpIn(), 0.5);
+	
+	t1.adjust_setpoint(t1.getAmpIn(), 0.5);	
+	//~ t1.getPt();
+	//~ t1.adjust_setpoint (t1.getAmpIn(), 0.5);
 
-	t3.setFin(37.5e6);
-	t3.getFin();		
-	t3.setAmpIn(float_to_dBm(14.0));
-	t3.getAmpIn();
+	printf("\nTesting compare functions\n");	
+	t1.compare_ain_to_setpt();
+	//~ t1.compare_ain_to_setpt(t1.getAmpIn(), t1.getPt(), 0.05);
+
+	//~ printf("\nTesting object t3\n");
+
+	//~ t3.setFin(37.5e6);
+	//~ t3.getFin();		
+	//~ ////~ t3.setAmpIn(float_to_dBm(14.0));		
+	//~ t3.setAmpIn(12.0);
+	//~ t3.getAmpIn();
 	
-	t3.setSwitch(false);
-	t3.getSwitch();
-	t3.setPt(15.5);
-	t3.getPt();
+	//~ t3.setPt(15.5);
+	//~ t3.getPt();
+	//~ t3.setSwitch(false);
+	//~ t3.getSwitch();
 	
-	t3.setAtten(128);
-	t3.getAtten();
-	t3.setMask(0xC3);
-	t3.getMask();
+	//~ t3.setAtten(128);
+	//~ t3.getAtten();
+	//~ t3.setMask(0xC3);
+	//~ t3.getMask();
 	
-	t3.compare_ain_to_setpt();
+	//~ t3.compare_ain_to_setpt();
 	//~ t3.compare_ain_to_setpt(t3.getAmpIn(), t3.getPt(), 0.05);
 	
 	//~ t2.setFin(2.8);
@@ -332,4 +490,41 @@ int main(int argc, char const *argv[]) {
 	
 	return 0;
 }
+
+
+// https://stackoverflow.com/questions/315948/c-catching-all-exceptions
+// https://en.cppreference.com/w/cpp/language/catch
+
+//~ try
+//~ {
+    //~ f();
+//~ }
+//~ catch (const std::overflow_error& e)
+//~ {} // this executes if f() throws std::overflow_error (same type rule)
+//~ catch (const std::runtime_error& e)
+//~ {} // this executes if f() throws std::underflow_error (base class rule)
+//~ catch (const std::exception& e)
+//~ {} // this executes if f() throws std::logic_error (base class rule)
+//~ catch (...)
+//~ {} // this executes if f() throws std::string or int or any other unrelated typ
+
+
+//// Comment these in for test
+//~ int adc_value=2456, adc_min=0, adc_max=4096;
+//~ float out_min=0, out_max=12, adcResult;
+// adcResult = ( (((adc_value - adc_min)*(out_max-out_min)) / (adc_max-adc_min)) + out_min);
+
+	
+	/// testing bitset masks ///	
+    //~ bitset<8> decimalBitset(15);
+    //~ bitset<8> testBitset(0);
+    //~ decimalBitset = (decimalBitset |= 0x53) &= 0xF2;
+    //~ testBitset = (testBitset |= 0xFF) &= 0x07;    
+    //~ cout << "decimalBitset: " << decimalBitset << endl;
+    //~ cout << "testBitset: " << testBitset << endl;
+    //~ cout << "testBitset[]: " << (testBitset &= decimalBitset) << endl;
+    ////~ cout << "testBitset[]: " << (testBitset &= 0x3FEE) << endl;    
+	/// end of testing bitset masks /// 
+    
+
 

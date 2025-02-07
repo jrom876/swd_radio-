@@ -4,7 +4,7 @@
 
 # Compiler flags
 CC=g++
-CFLAGS=-Wall -g
+CFLAGS=-Wall -g -std=c++20
 
 # Debug build settings
 DEBUG=-g
@@ -16,22 +16,41 @@ LIBS=-lm -lcheck -lpthread -lrt -lsubunit -lcheck_pic
 DEPS = transmitter.cpp transmitter.hpp \
 		attenuator.cpp attenuator.hpp \
 		clock.cpp clock.hpp \
-		dds.cpp attenuator.hpp \
+		dds.cpp dds.hpp \
+		filter.cpp filter.hpp \
 		outamp.cpp outamp.hpp \
-		preamp.cpp preamp.hpp 
+		preamp.cpp preamp.hpp  \
+		rfswitch.cpp rfswitch.hpp \
+		signal.cpp signal.hpp \
+		tools.cpp tools.hpp \
+		main.cpp
 		
 OBJ = transmitter transmitter.o transmitter.i transmitter.s transmitter.pie transmitter.hex \
 		attenuator attenuator.o  \
 		clock clock.o \
 		dds dds.o \
+		filter filter.o \
 		outamp outamp.o \
-		preamp preamp.o
+		preamp preamp.o \
+		rfswitch rfswitch.o \
+		signal signal.o \
+		tools tools.o \
+		main main.o
 
-all: transmitter attenuator clock dds outamp preamp
+all: main transmitter attenuator clock dds filter outamp preamp rfswitch signal tools
 
+main: main.o
+	$(CC) -o main main.o $(LIBS)
+main.o: $(DEPS)
+	$(CC) $(CFLAGS) -c main.cpp $(LIBS)
+
+signal: signal.o
+	$(CC) -o signal signal.o $(LIBS)
+signal.o: $(DEPS)
+	$(CC) $(CFLAGS) -c signal.cpp $(LIBS)
+	
 transmitter: transmitter.o
 	$(CC) -o transmitter transmitter.o $(LIBS)
-
 transmitter.o: $(DEPS)
 	$(CC) $(CFLAGS) -c transmitter.cpp $(LIBS)
 #~ 	$(CC) -E transmitter.cpp -o transmitter.i $(LIBS)
@@ -54,6 +73,11 @@ dds: dds.o
 dds.o: $(DEPS)
 	$(CC) $(CFLAGS) -c dds.cpp $(LIBS)
 
+filter: filter.o
+	$(CC) -o filter filter.o $(LIBS)
+filter.o: $(DEPS)
+	$(CC) $(CFLAGS) -c filter.cpp $(LIBS)
+
 outamp: outamp.o
 	$(CC) -o outamp outamp.o $(LIBS)
 outamp.o: $(DEPS)
@@ -64,5 +88,15 @@ preamp: preamp.o
 preamp.o: $(DEPS)
 	$(CC) $(CFLAGS) -c preamp.cpp $(LIBS)
 
+rfswitch: rfswitch.o
+	$(CC) -o rfswitch rfswitch.o $(LIBS)
+rfswitch.o: $(DEPS)
+	$(CC) $(CFLAGS) -c rfswitch.cpp $(LIBS)
+
+tools: tools.o
+	$(CC) -o tools tools.o $(LIBS)
+tools.o: $(DEPS)
+	$(CC) $(CFLAGS) -c tools.cpp $(LIBS)
+	
 clean:
 	rm -f $(OBJ) 

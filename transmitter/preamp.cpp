@@ -10,63 +10,35 @@
 #include <iostream>
 #include <sstream>
 #include "preamp.hpp"
+#include "tools.hpp"
 using namespace std;
 
-/// STANDARD DEFINITIONS FOR PROJECT SCICALC 
-#define PI	3.14159265358979323846 	// ad infinitum sine repeto
-#define LIGHT_SPEED		299792458.0 		// meters per second
-#define STACK_OVERFLOW	2147483648		// Hex 0x80000000
-#define DATA_SIZE 1000
-#define DELTA 1.0e-6
-#define MILLI 1.0e-3
-#define MICRO 1.0e-6
-#define NANO 1.0e-9
-#define PICO 1.0e-12
-#define KILO 1.0e3
-#define MEGA 1.0e6
-#define GIGA 1.0e9
-#define TERA 1.0e12 
-#define true 1
-#define false 0
-
-/// STANDARD DEFINITIONS FOR LIGHT INTENSITY AND ELECTRIC FIELD CALCULATIONS
-#define AIR_REFRACTIVE_INDEX 1.00027717
-#define E0 8.8541878128*PICO				// Permittivity of Free Space in Farads per meter
-#define MU0 1.25663706212*MICRO				// Permeability of Free Space in Newtons per square meter
-#define EPSILON_0 1/(MU0*(LIGHT_SPEED*LIGHT_SPEED))	// Permittivity of Free Space Equation
-#define E_CONSTANT 1/(4*PI*EPSILON_0)
-#define ELECTRON_CHARGE 1.6e-19 			// Charge of an electron in Coulombs
-#define RADIUS_HELIUM_ATOM 26.5e-12			// Radius of a Helium atom in meters 
 
 /////////////
 // Globals //
 /////////////
 float tempf;	// Needed for writing data to file
-
-
-PREAMP::Preamp DUMMY_PREAMP = {1.2,250,20,-85,50};
+PREAMP::Preamp DUMMY_PREAMP = {1.2,250,20,-85,1.2};
 
 // Default Constructor
 PREAMP::PREAMP() {
-	PREAMP::preamp		= DUMMY_PREAMP;	
 	PREAMP::freq		= 1.2; 	// Current freq setting in GHz
 	PREAMP::pwr_limit	= 250; 	// Power limit in Watts
-	PREAMP::gain		= 27; 	// gain in dB
+	PREAMP::gain		= 20; 	// gain in dB
 	PREAMP::noise		= -85; 	// noise in dB
-	PREAMP::zout		= 50;	// Impedance, assume 50 Ohms
+	PREAMP::fout		= freq ;	// Impedance, assume 50 Ohms
 };
 
 // DESTRUCTOR
-PREAMP::~PREAMP() {};
+PREAMP::~PREAMP() {std::cout << "Preamp Destructor is executed\n";};
 
 // Parameterized Constructor
 PREAMP::PREAMP(struct Preamp pamp) {
-	PREAMP::preamp		= pamp;	
 	PREAMP::freq		= pamp.freq; 		// Current freq setting in GHz
 	PREAMP::pwr_limit	= pamp.pwr_limit; 	// Power limit in Watts
 	PREAMP::gain		= pamp.gain; 		// gain in dB
 	PREAMP::noise		= pamp.noise; 		// noise in dB
-	PREAMP::zout		= pamp.zout;		// Impedance, assume 50 Ohms	
+	PREAMP::fout		= pamp.fout;		// Impedance, assume 50 Ohms	
 };
   
 float PREAMP::setFreq		(float f)	{ freq = f; 		return freq; };        

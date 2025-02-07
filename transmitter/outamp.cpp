@@ -10,39 +10,13 @@
 #include <iostream>
 #include <sstream>
 #include "outamp.hpp"
+#include "tools.hpp"
 using namespace std;
-
-/// STANDARD DEFINITIONS FOR PROJECT SCICALC 
-#define PI		3.14159265358979323846 	// ad infinitum sine repeto
-#define LIGHT_SPEED	299792458.0 		// meters per second
-#define STACK_OVERFLOW	2147483648		// Hex 0x80000000
-#define DATA_SIZE 1000
-#define DELTA 1.0e-6
-#define MILLI 1.0e-3
-#define MICRO 1.0e-6
-#define NANO 1.0e-9
-#define PICO 1.0e-12
-#define KILO 1.0e3
-#define MEGA 1.0e6
-#define GIGA 1.0e9
-#define TERA 1.0e12 
-#define true 1
-#define false 0
-
-/// STANDARD DEFINITIONS FOR LIGHT INTENSITY AND ELECTRIC FIELD CALCULATIONS
-#define AIR_REFRACTIVE_INDEX 1.00027717
-#define E0 8.8541878128*PICO				// Permittivity of Free Space in Farads per meter
-#define MU0 1.25663706212*MICRO				// Permeability of Free Space in Newtons per square meter
-#define EPSILON_0 1/(MU0*(LIGHT_SPEED*LIGHT_SPEED))	// Permittivity of Free Space Equation
-#define E_CONSTANT 1/(4*PI*EPSILON_0)
-#define ELECTRON_CHARGE 1.6e-19 			// Charge of an electron in Coulombs
-#define RADIUS_HELIUM_ATOM 26.5e-12			// Radius of a Helium atom in meters
 
 /////////////
 // Globals //
 /////////////
 float tempf;	// Needed for writing data to file
-
 OUTAMP::Outamp DUMMY_OUTAMP = {1.2,250,20,-85,50};
 
 // Default Constructor
@@ -56,7 +30,7 @@ OUTAMP::OUTAMP() {
 };
 
 // DESTRUCTOR
-OUTAMP::~OUTAMP() {};
+OUTAMP::~OUTAMP() {std::cout << "Output Amp Destructor is executed\n";};
 
 // Parameterized Constructor
 OUTAMP::OUTAMP(struct Outamp oamp) {
@@ -72,7 +46,14 @@ float OUTAMP::setFreq		(float f)	{ freq = f; 		return freq; };
 float OUTAMP::setPwrLimit	(float p)	{ pwr_limit = p; 	return pwr_limit; };       
 float OUTAMP::setGain		(float g)	{ gain = g; 		return gain; };        
 float OUTAMP::setNoise		(float n)	{ noise = n; 		return noise; };  
-	
+
+ 
+float OUTAMP::getFreq() 	{ printf("\nOutput amp Frequency:\t%.2f\n",freq); 		return freq; }         
+float OUTAMP::getPwrLimit() { printf("Output amp Power Limit:\t%.2f\n",pwr_limit); 	return pwr_limit; }         
+float OUTAMP::getGain() 	{ printf("Output amp Gain Limit:\t%.2f\n",gain);		return gain; } 
+float OUTAMP::getNoise() 	{ printf("Output amp Noise:\t%f\n",noise); 				return noise; }   
+       
+
 /// Main ///
 int main(int argc, char const *argv[]) {
 	

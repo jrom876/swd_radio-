@@ -8,9 +8,9 @@
 // https://stackoverflow.com/questions/559522/separate-header-files-for-concrete-classes-c
 // https://stackoverflow.com/questions/18749375/c-calling-objects-from-another-class
 
-///***********************
+///*************
 ///	THE TRANSMITTER
-///***********************
+///*************
 /**
  * Power Density: p = Pt/(4*PI*R^2)
  * 
@@ -30,113 +30,52 @@
 #include "attenuator.hpp"
 #include "dds.hpp"
 #include "clock.hpp"
+#include "filter.hpp"
 #include "outamp.hpp"
 #include "preamp.hpp"
+#include "rfswitch.hpp"
+#include "signal.hpp"
+#include "tools.hpp"
 using namespace std;
 
-/// STANDARD DEFINITIONS FOR PROJECT SCICALC 
-#define PI		3.14159265358979323846 	// ad infinitum sine repeto
-#define LIGHT_SPEED	299792458.0 		// meters per second
-#define STACK_OVERFLOW	2147483648		// Hex 0x80000000
-#define DATA_SIZE 1000
-#define DELTA 1.0e-6
-#define MILLI 1.0e-3
-#define MICRO 1.0e-6
-#define NANO 1.0e-9
-#define PICO 1.0e-12
-#define KILO 1.0e3
-#define MEGA 1.0e6
-#define GIGA 1.0e9
-#define TERA 1.0e12 
-#define true 1
-#define false 0
-
-/// STANDARD DEFINITIONS FOR LIGHT INTENSITY AND ELECTRIC FIELD CALCULATIONS
-#define AIR_REFRACTIVE_INDEX 1.00027717
-#define E0 8.8541878128*PICO				// Permittivity of Free Space in Farads per meter
-#define MU0 1.25663706212*MICRO				// Permeability of Free Space in Newtons per square meter
-#define EPSILON_0 1/(MU0*(LIGHT_SPEED*LIGHT_SPEED))	// Permittivity of Free Space Equation
-#define E_CONSTANT 1/(4*PI*EPSILON_0)			// Permeability of Free Space Equation
-#define ELECTRON_CHARGE 1.6e-19 			// Charge of an electron in Coulombs
-#define RADIUS_HELIUM_ATOM 26.5e-12			// Radius of a Helium atom in meters
-	
 #define TXT_FILE_LB "transmitter_data.txt"
-
-#define PLF(deg) pow(cos(deg*(PI/180)),2) 	// Polarization Loss Factor
-#define FRBW(frange,cfreq) (frange/cfreq)	// Fractional Bandwidth of Antenna
-#define UV_MAG(x,y,z) sqrt((x*x)+(y*y)+(z*z)) 	// Unit Vector Magnitude
-#define MAX_NUM 100	// The maximum number of iterations
 
 /////////////
 // Globals //
 /////////////
 float freqGHz, txpwrW, distTargetKM;
 float radarXSect, antGain;
-//~ float PLF = 0; // Polarization Loss Factor
+float PLF = 0; // Polarization Loss Factor
 float tempf;	// Needed for writing data to file
 
+//~ TRANSMITTER::Transmitter DUMMY_TX = {1.0,1.0,1.0,0.1,0.1,1, 1};	
+CLOCK::Clock clk0 = {4.8,0.5};
+DDS::DDSynth dds0 = {4.8,1.2,1};
+FILTER::Filter fil0 = {1.2,250,20.0,-85};
+ATTENUATOR::Attenuator att0 = {1.5, 0xFF, 0x04, (att0.sig_in/(att0.atten & att0.mask))};
+PREAMP::Preamp pa0 = {1.2,250,20,-85,1.2};
+RFSWITCH::RFSwitch sw0 = {1,1.6,true, 1.0, 0x77,0x5};
+OUTAMP::Outamp oa0 = {1.2,250,20,-85,50};
+//~ CLOCK ck1 = CLOCK();
 
-TRANSMITTER::Transmitter DUMMY_TX = {1.0,1.0,0.1,0.1,1};	
-OUTAMP::Outamp DUMMY_OUTAMP = {1.2,250,20,-85,50};
+//~ CLOCK::Clock testStruct = {4.8,0.5};
+//~ CLOCK c2 = CLOCK(testStruct);
+
+//~ CLOCK clk2 = CLOCK(clk0);
+//~ DDS 		dds1;
+//~ FILTER 		flt1;
+//~ ATTENUATOR 	att1;
+//~ PREAMP 		pa1;
+//~ RFSWITCH 	sw1;
+//~ OUTAMP		oa1;
+	
 
 // Default Constructor
-TRANSMITTER::TRANSMITTER() {
-	TRANSMITTER::outamp 	= {1.2,250,35,-85.0,50}; 
-	TRANSMITTER::preamp 	= {1.2,250,27,-85.0,50};
-	TRANSMITTER::atten 	= {1.2,1.0,50.0};
-	TRANSMITTER::dds 	= {1.2,1.2,2};
-	TRANSMITTER::clock 	= {1.2, 2.5};
-	TRANSMITTER::tx 	= DUMMY_TX;
-	TRANSMITTER::freq 	= 1.2; 	// Current freq settingin GHz
-	TRANSMITTER::gain 	= 62.0; // gain in dB
-	TRANSMITTER::dist	= 50.0; // RX distance from Source
-	TRANSMITTER::low	= 0.6;	// Lower edge of Bandwidth
-	TRANSMITTER::high	= 1.8;	// Upper edge of Bandwidth
-	TRANSMITTER::zout	= 50.0;	// Output Impedance in Ohms
-	
-};
+TRANSMITTER::TRANSMITTER() {};
 
 // DESTRUCTOR
-TRANSMITTER::~TRANSMITTER() {};
+TRANSMITTER::~TRANSMITTER() {std::cout << "Transmitter Destructor is executed\n";};
 
-// Parameterized Constructor
-TRANSMITTER::TRANSMITTER(struct Transmitter tx1) {
-	TRANSMITTER::outamp 	= tx1.outamp;	// Test struct that holds our receiver data
-	TRANSMITTER::preamp 	= tx1.preamp;	// Test struct that holds our receiver data
-	TRANSMITTER::atten 	= tx1.atten;	// Test struct that holds our receiver data
-	TRANSMITTER::dds 	= tx1.dds;	// Test struct that holds our receiver data
-	TRANSMITTER::tx 	= tx1;		// Test struct that holds our receiver data
-	TRANSMITTER::freq 	= freq; 	// Current freq setting of RX in GHz
-	TRANSMITTER::gain 	= gain; 	// Current freq setting of RX in GHz
-	TRANSMITTER::dist	= dist; 	// RX distance from Source
-	TRANSMITTER::low	= low;		// Lower edge of Bandwidth of RX
-	TRANSMITTER::high	= high;		// Upper edge of Bandwidth of RX
-	TRANSMITTER::zout	= zout;		// Output Impedance in Ohms
-	
-};
-
-// Parameterized Constructor
-TRANSMITTER::TRANSMITTER(
-	struct Output_Amp 	oa,
-	struct Pre_Amp 		pa,
-	struct Attenuator 	att,
-	struct DDS 		dds,
-	struct Clock 		clk) {
-		TRANSMITTER::outamp 	= oa;	
-		TRANSMITTER::preamp 	= pa;	
-		TRANSMITTER::atten 	= att;	
-		TRANSMITTER::dds 	= dds;		
-		TRANSMITTER::clock 	= clk;	
-	};
-
-// Parameterized Constructor
-TRANSMITTER::TRANSMITTER(
-	OUTAMP			oa, 
-	PREAMP			pa,
-	ATTENUATOR		att,
-	DDS			ds,
-	CLOCK			clk) {};
-			
 /** 
  *	One-way Path Loss, Received Signal Strength at Target 
 **/
@@ -176,21 +115,157 @@ float TRANSMITTER::txPwrDBM(float PtxdBm, float GtxdB, float GrxdB, float dist, 
 	//~ getFresnelRadius(freq,dist);
 //~ }
          
-float TRANSMITTER::setFreq(float f)	{freq = f;return freq;};          
-float TRANSMITTER::setGain(float g)	{gain = g;return gain;};          
-float TRANSMITTER::setDist(float d)	{dist = d;return dist;};           
-float TRANSMITTER::setLow(float l)	{low = l;return low;};          
-float TRANSMITTER::setHigh(float h)	{high = h;return high;};          
+float TRANSMITTER::setFreq(float f)	{freq = f;return freq;};              
+float TRANSMITTER::setBW(float b)	{bw = b;return bw;};             
+float TRANSMITTER::setGain(float g)	{gain = g;return gain;};        
+float TRANSMITTER::setNoise(float n){noise = n;return noise;};      
+float TRANSMITTER::setDist(float d)	{dist = d;return dist;};          
 float TRANSMITTER::setZout(float z)	{zout = z;return zout;};  
+
+//~ float setFreq	(float f);           
+        //~ float setBW		(float b);  
+        //~ float setGain	(float g);           
+        //~ float setNoise	(float n);          
+        //~ float setDist	(float d);          
+        //~ float setZout	(float z);
+        
+float dBm_to_float (float dbm) {
+	float result = pow(10,((dbm-30)/10));
+	printf("%.2f dBm = %.2f\n",dbm, result); 
+	return result;
+}
+
+float float_to_dBm (float flt) {
+	float dbm = (10*(log10(flt))) + 30;
+	printf("%.2f = %.2f dBm\n",flt, dbm); 
+	return dbm;
+}
+
+// Circle::Circle() {};
+
+// https://en.wikipedia.org/wiki/Zero-copy
+// https://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem
 
 // https://stackoverflow.com/questions/13074590/listlist-names-the-constructor-not-the-type	 
 /// Main ///
 int main(int argc, char const *argv[]) {
 	
-	//~ TRANSMITTER::Transmitter testStruct = {100.0,10.0,10.0,0.5,1.2,50.0};
-	TRANSMITTER t1 = TRANSMITTER();
+	//~ TRANSMITTER::Transmitter testStruct = {100.0,10.0,10.0,0.5,1.2,50.0};	
+	//~ TRANSMITTER	t1 = TRANSMITTER();	
+	
+	TRANSMITTER* 	t1;		
+	CLOCK* 			clk1;
+	DDS* 			dds1;
+	FILTER* 		fil1;
+	ATTENUATOR* 	att1;
+	PREAMP* 		pa1;
+	RFSWITCH* 		sw1;
+	OUTAMP* 		oa1;
+	SIGNAL*			sig1;
+	
+	
+	//~ t1->clk.setFout(2.4);
+	//~ t1->clk.setFout(2.4);
+	//~ t1->CLOCK::clk.getFout();
+	
+	//~ clk1->setFout(1.2);
+	clk1->getFout();
+	
+	//~ clk1->setFout(gck - 1.0);
+	//~ gck = clk1->getFout();
+	
+	//~ dds1->setClkIn(1.2);
+	dds1->getClkIn();
+	
+	//~ dds1->setClkIn(gck);
+	//~ printf(("%.4f"),dds1->getClkIn());
+	
+	//~ fil1->setFreq(gck);
+	float ff1 = fil1->getFreq();
+	printf(("%.4f"),fil1->getFreq());
+	
+	//~ dds1->setClkIn(2.4);
+	//~ printf(("%.4f"),dds1->getClkIn());
+	
+	//~ dds1->getClkIn();
+	//~ float gdds = clk1->getFout();
+	//~ clk1->getFout();
+	
+	t1->txPwrWatts(100.0, 10.0, 10.0, 0.5, 1.2);
+	
+	//~ dds1->setClkIn(gck);	
+	//~ float gddf = dds1->getFout();
+	//~ printf(("%.4f"),dds1->getClkIn());
+	
+	//~ TRANSMITTER t3 = TRANSMITTER(
+					//~ oa1, 
+					//~ sw1,
+					//~ pa1,
+					//~ att1,
+					//~ fil1,
+					//~ dds1,
+					//~ clk1);
+	// OUTAMP t1 = OUTAMP();
+	
+	////////////////////////////////
+	
+	//~ TRANSMITTER t2;	
+	//~ TRANSMITTER 	t2;	
+	//~ CLOCK 			clk2;	
+	//~ DDS* 			dds2;
+	//~ FILTER* 	fil2;
+	//~ ATTENUATOR* att2;
+	//~ PREAMP* 	pa2;
+	//~ RFSWITCH* 	sw2;
+	//~ OUTAMP* 	oa2;
+	
+	//~ TRANSMITTER t2 (OUTAMP 			oa2 = OUTAMP(), 
+					//~ RFSWITCH		sw2 = RFSWITCH(),
+					//~ PREAMP			pa2 = PREAMP(),
+					//~ ATTENUATOR		att2 = ATTENUATOR(),
+					//~ FILTER			fil2 = FILTER(),
+					//~ DDS				dds2 = DDS(),
+					//~ CLOCK			clk2 = CLOCK()) ;
+	
+	//~ clk2->setFout(2.5);
+	
+	//~ clk1->getFout();
+	
+	//~ t2.clk2.getFout();
+	
+	//~ TRANSMITTER t2 = TRANSMITTER(	
+				//~ OUTAMP			oa, 
+				//~ RFSWITCH		rfsw,
+				//~ PREAMP			pa,
+				//~ ATTENUATOR		att,
+				//~ FILTER			flt,
+				//~ DDS				ds,
+				//~ CLOCK			clk) {};
+	
+	//~ CLOCK::CLOCK() {};
+	//~ CLOCK ck1 = CLOCK();
+	
 	//~ TRANSMITTER t2 = TRANSMITTER(testStruct);	
 	
+	//~ TRANSMITTER(OUTAMP			oa, 
+				//~ RFSWITCH		sw,
+				//~ PREAMP			pa,
+				//~ ATTENUATOR		att,
+				//~ FILTER			fil,
+				//~ DDS				dds,
+				//~ CLOCK			clk);
+		
+	//~ TRANSMITTER t3 = TRANSMITTER(
+				//~ OUTAMP			oa, 
+				//~ RFSWITCH		sw,
+				//~ PREAMP			pa,
+				//~ ATTENUATOR		att,
+				//~ FILTER			fil,
+				//~ DDS				dds,
+				//~ CLOCK			clk);	
+	
+	
+		
 	//~ OUTAMP::OUTAMP*  = new OUTAMP();
 	//~ TRANSMITTER::Transmitter testStruct3 = {
 		//~ TRANSMITTER::outamp	oamp = {1.2,500,10.0,-83.0,50.0}, 
@@ -201,7 +276,7 @@ int main(int argc, char const *argv[]) {
 	//~ };
 	//~ TRANSMITTER t3 = TRANSMITTER(testStruct3);
 	
-	t1.txPwrWatts(100.0, 10.0, 10.0, 0.5, 1.2);
+	//~ t1->txPwrWatts(100.0, 10.0, 10.0, 0.5, 1.2);
 	//~ t1.txPwrDBM(20, 10.0, 10.0, 50.0, 1.2);
 	
 	//~ t2.txPwrWatts(testStruct.freq,
@@ -220,13 +295,13 @@ int main(int argc, char const *argv[]) {
 	//~ t2.txPwrWatts(100.0, 10.0, 10.0, 50.0, 1.2);
 	//~ t2.txPwrDBM(20, 10.0, 10.0, 50.0, 1.2);
 	//~ RECEIVER rcvr2 = RECEIVER(
-					//~ RECEIVER::horiz, 	// Polarity
+					//~ RECEIVER::horiz, // Polarity
 					//~ RECEIVER::mono,	// Type
-					//~ 1.0,		// Gain
-					//~ 2.4,		// Freq
-					//~ 0.9,		// Efficiency
-					//~ 1.0,		// Bandwidth
-					//~ 0.01);		// Aperature Effective Area
+					//~ 1.0,			// Gain
+					//~ 2.4,			// Freq
+					//~ 0.9,			// Efficiency
+					//~ 1.0,			// Bandwidth
+					//~ 0.01);			// Aperature Effective Area
 	
 	//~ rcvr1.setPol(rcvr1.getPol());
 	//~ ant1.setType(ant1.getType());

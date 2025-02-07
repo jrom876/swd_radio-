@@ -2,10 +2,16 @@
 
 #cd ../transmitter/
 make -f make-full.mk 
-./transmitter
-#~ ./attenuator
+#~ ./transmitter
+#~ ./signal
 #~ ./clock
 #~ ./dds
-#~ ./outamp
+#~ ./filter
+#~ ./attenuator
 #~ ./preamp
+#~ echo
+#~ ./rfswitch
+#~ ./outamp
+#~ ./tools
+#~ ./main
 
