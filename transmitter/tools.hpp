@@ -3,7 +3,6 @@
 #ifndef TOOLS_HPP
 #define TOOLS_HPP
 
-
 #include <bitset>
 #include <iostream>
 #include <cstdint>
