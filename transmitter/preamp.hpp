@@ -36,9 +36,9 @@ class PREAMP {
         
         /// GETTERS           
         float getFreq() 	{ printf("\nPre amp Frequency:\t%.2f\n",freq); 		return freq; }         
-        float getPwrLimit() { printf("Pre amp Power Limit:\t%.2f\n",pwr_limit); return pwr_limit; }         
+        float getPwrLimit() 	{ printf("Pre amp Power Limit:\t%.2f\n",pwr_limit); return pwr_limit; }         
         float getGain() 	{ printf("Pre amp Gain Limit:\t%.2f\n",gain);		return gain; } 
-        float getNoise() 	{ printf("Pre amp Noise:\t\t%f\n",noise); 			return noise; }  
+        float getNoise() 	{ printf("Pre amp Noise:\t\t%f\n",noise); 		return noise; }  
        
 };
 
