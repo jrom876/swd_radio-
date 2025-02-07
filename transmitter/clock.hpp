@@ -3,17 +3,15 @@
 #ifndef CLOCK_HPP
 #define CLOCK_HPP
 
-class CLOCK {
-	private:
-			
+class CLOCK {			
     public:	
     	
-		float 		fout; 			// GHz
-		float 		control_volt; 	// Volts DC	
+		float 	fout; 		// GHz
+		float 	control_volt; 	// Volts DC	
 		
 		struct Clock {
-			float 		fout; 	
-			float 		control_volt; 	
+			float 	fout; 	
+			float 	control_volt; 	
 		} clock;
 		
 		/// CONSTRUCTORS
@@ -28,7 +26,7 @@ class CLOCK {
         //~ virtual float setCVolt	(float);  
               
         void setFout(float f)	{ fout = f; };       
-		void setCVolt(float cv)	{ control_volt = cv; }; 
+	void setCVolt(float cv)	{ control_volt = cv; }; 
         
         /// GETTERS           
         float getFout() 	{ printf("\nClock fout:\t%.2f\n",fout); return fout; } 
