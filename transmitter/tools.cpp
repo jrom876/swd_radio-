@@ -1,7 +1,7 @@
 
 //	Package:	sw_def_radio
-//	File:		rfswitch.c
-// 	Purpose:	Define the Transmitter's High Speed RF Switch Class
+//	File:		tools.cpp
+// 	Purpose:	Define the Transmitter's Tools
 // 	Author:		jrom876
 
 /**
@@ -38,9 +38,7 @@ using namespace std;
  * General Tools from my Toolbox
  * */
 
-float adc_calc (int adc_value, 
-						int adc_min, int adc_max, 
-						float out_min, float out_max) {
+float adc_calc (int adc_value, int adc_min, int adc_max, float out_min, float out_max) {
 	float adcResult = (( ((adc_value - adc_min)*(out_max-out_min)) / (adc_max-adc_min) ) + out_min);	
 	printf("\nadcResult: %f\n\n", adcResult); // DBPRINT
 	return adcResult;
@@ -50,7 +48,7 @@ float adc_calc (int adc_value,
 //~ adcResult = (( ((adc_value - adc_min)*(out_max-out_min)) / (adc_max-adc_min) ) + out_min);
 
 float scaleAndShift (float in_value, float in_max, float in_min, 
-					float out_max, float out_min) {
+	float out_max, float out_min) {
 	float ssResult = (( ((in_value - in_min)*(out_max-out_min)) / (in_max-in_min) ) + out_min);
 	printf("Scaled and shifted result:\t%.4f\n", ssResult); // DBPRINT
 	return ssResult;
