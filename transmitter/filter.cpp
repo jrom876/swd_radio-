@@ -43,7 +43,7 @@ FILTER::FILTER(struct Filter filt) {
 };
   
 //~ float FILTER::setFreq		(float f)	{ freq_in = f; 		return freq_in; };        
-//~ float FILTER::setPwrLimit	(float p)	{ pwr_limit = p; 	return pwr_limit; };       
+//~ float FILTER::setPwrLimit		(float p)	{ pwr_limit = p; 	return pwr_limit; };       
 //~ float FILTER::setGain		(float g)	{ gain = g; 		return gain; };        
 //~ float FILTER::setNoise		(float n)	{ noise = n; 		return noise; };  
 //~ float FILTER::setFout		(float f)	{ freq_out = f; 	return freq_out; }; 
