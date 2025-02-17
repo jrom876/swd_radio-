@@ -10,7 +10,7 @@ DISCLAIMER:
 
 Only the Transmitter section has anything resembling developed code. 
 
-It is EXPERIMENTAL (i.e. just for fun), and as such many parts are unfinished and untested, there are tons of mistakes that need correction, and the code is subject to sudden and nebulous change.
+It is EXPERIMENTAL (i.e. just for fun and education), and as such many parts are unfinished and untested, there are tons of mistakes that need correction, and the code is subject to sudden and nebulous change. Feel free to branch off and add, remove, or fix anything.
 
 
 BACKGROUND:
