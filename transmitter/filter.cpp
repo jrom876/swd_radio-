@@ -3,6 +3,10 @@
 //	File:		filter.cpp
 // 	Purpose:	Define the Transmitter's Filter Class
 // 	Author:		jrom876
+//	Description:	Bandpass Gaussian Filter Simulator, will be augmented with
+//			code options to generate various types of bandpass filters. 
+//			Options will include 3-element, Impedance-matched 
+//			bandpass filters.  bpf3Calc.c, which is
 
 /// C++ Libraries
 #include <cmath>
@@ -21,11 +25,11 @@ FILTER::Filter DUMMY_FILTER = {1.2,250,20,-85,50, 0.12};
 
 // Default Constructor
 FILTER::FILTER() {	
-	FILTER::freq_in		= 1.2; 	// Current freq setting in GHz
+	FILTER::freq_in		= 1.2; 	// Center freq in GHz
 	FILTER::pwr_limit	= 25; 	// Power limit in Watts
 	FILTER::gain		= 27; 	// gain or loss in dB
 	FILTER::noise		= -85; 	// noise in dB
-	FILTER::freq_out	= 1.2;	// Attenuated output signal
+	FILTER::freq_out	= 1.2;	// Filtered output signal
 	FILTER::bandwidth	= 0.12;	// Bandwidth	
 };
 
