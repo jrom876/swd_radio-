@@ -5,8 +5,8 @@
 // 	Author:		jrom876
 //	Description:	Bandpass Gaussian Filter Simulator, will be augmented with
 //			code options to generate various types of bandpass filters. 
-//			Options will include 3-element, Impedance-matched 
-//			bandpass filters. 
+//			Options will include 3-element and 2-element, Impedance-matched 
+//			Chebychev, Butterworth and Bessel bandpass filters. 
 //			See bpf3Calc.c at link below:
 // 	https://github.com/jrom876/sciCalc/blob/master/sciCalc-master/sciCalc/bpf3Calc.c
 
