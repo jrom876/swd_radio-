@@ -6,7 +6,9 @@
 //	Description:	Bandpass Gaussian Filter Simulator, will be augmented with
 //			code options to generate various types of bandpass filters. 
 //			Options will include 3-element, Impedance-matched 
-//			bandpass filters.  bpf3Calc.c, which is
+//			bandpass filters. 
+//			See bpf3Calc.c at link below:
+// 	https://github.com/jrom876/sciCalc/blob/master/sciCalc-master/sciCalc/bpf3Calc.c
 
 /// C++ Libraries
 #include <cmath>
