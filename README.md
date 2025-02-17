@@ -6,6 +6,15 @@ There are also makefiles and shell scripts to compile and run it all with just a
 
 Unit tests will be added in the near future.
 
+Bandpass Gaussian Filter Simulator, filter.cpp, will be augmented with code options to generate various types of bandpass filters. 
+
+Options will include 3-element and 2-element, Impedance-matched Chebychev, Butterworth and Bessel bandpass filters. 
+
+See bpf3Calc.c at link below:
+
+https://github.com/jrom876/sciCalc/blob/master/sciCalc-master/sciCalc/bpf3Calc.c
+
+
 DISCLAIMER:
 
 Only the Transmitter section has anything resembling developed code. 
