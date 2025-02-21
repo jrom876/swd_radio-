@@ -97,7 +97,7 @@ float adjust_setpoint (float signal, float alpha, float lim) {
 	int count = 0;
 	lim =  lim * (1.0 - hysteresis);
 	printf("end signal = %.4f\n", signal);
-	while (((lim) != ((1.0 + hysteresis) * signal)) && (count < 21)) {
+	while ((lim != ((1.0 + hysteresis) * signal)) && (count < 21)) {
 		lim += alpha*(signal - lim);
 		////~ printf("%d signal = %.8f\tsetpoint = %.8f\n", count, signal, lim);
 		printf("%d signal = %.8f\tsetpoint = %.8f\n", count, round_to_N(signal,3), round_to_N(lim, 4));
