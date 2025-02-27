@@ -24,5 +24,5 @@ It is EXPERIMENTAL (i.e. just for fun and education), and as such many parts are
 
 BACKGROUND:
 
-I originally wrote much of this RF modeling software several years ago to help me with the development of a ground penetrating radar system. 
+I originally wrote lots of RF modeling software several years ago to help me with the development of a ground penetrating radar system. This project is a new effort to integrate these models into a coherent test framework.
 
