@@ -35,10 +35,10 @@ float tempf;	// Needed for writing data to file
 
 // Default Constructor
 DDS::DDS() {
-	DDS::clk_in	= 2.4; 		// GHz
+	DDS::clk_in		= 2.4; 		// GHz
 	DDS::ampl_out	= 0.3; 		// mVpp
 	DDS::selector 	= 0x02; 	// 0 to 255
-	DDS::fout 	= clk_in / selector; 	// GHz
+	DDS::fout 		= clk_in / selector; 	// GHz
 };
 
 // DESTRUCTOR
@@ -47,7 +47,7 @@ DDS::~DDS() {std::cout << "Direct Digital Synthesizer Destructor is executed\n";
 // Parameterized Constructor
 //~ DDS::DDS(struct DDSynth dds) {
 	//~ DDS::clk_in 	= dds.clk_in;	 
-	//~ DDS::ampl_out 	= dds.ampl_out;	 	 
+	//~ DDS::ampl_out 		= dds.ampl_out;	 	 
 	//~ DDS::fout 		= dds.fout;	 
 	//~ DDS::selector 	= dds.selector;	
 //~ };

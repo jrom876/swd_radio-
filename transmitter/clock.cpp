@@ -22,7 +22,7 @@ CLOCK::Clock DUMMY_CLOCK = {4.8,0.5};
 
 // Default Constructor
 CLOCK::CLOCK() {
-	CLOCK::fout 		= 4.8; // GHz
+	CLOCK::fout 			= 4.8; // GHz
 	CLOCK::control_volt 	= 0.5; 	// VDC
 };
 
@@ -31,7 +31,7 @@ CLOCK::~CLOCK() {std::cout << "Clock Destructor is executed\n";};
 
 // Parameterized Constructor
 CLOCK::CLOCK(struct Clock clk) {
-	CLOCK::fout 		= clk.fout;	// 
+	CLOCK::fout 	= clk.fout;	// 
 	CLOCK::control_volt	= clk.control_volt;	
 };
        

@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cstdint>
 
+
 /// https://en.cppreference.com/w/cpp/language/static
 
 class SIGNAL {
@@ -15,16 +16,16 @@ class SIGNAL {
 		    
 		float 		freq; 		// freq in Hertz
 		float		amp; 		// amplitude in millivolts
-		float		bw;		// bandwidth 	
+		float		bw;			// bandwidth 	
 		int 		modul; 		// modulation type
-		uint8_t		id;		// uniqe id
+		uint8_t		id;			// uniqe id
     	
 		struct Signal {
 			float 		freq; 	// freq in Hertz
 			float		amp; 	// amplitude in millivolts	
-			float		bw;	// bandwidth 	
-			int		modul; 	// modulation type
-			uint8_t		id;	// uniqe id
+			float		bw;		// bandwidth 	
+			int			modul; 	// modulation type
+			uint8_t		id;		// uniqe id
 		}signal;
 
 		//~ enum Modulation {
@@ -44,10 +45,10 @@ class SIGNAL {
 		
 		/// SETTERS   
         void setFreq	(float f);           
-        void setAmp	(float a);  
-        void setBW	(float b);           
-        void setMod	(int m);           
-        void setID	(uint8_t i); 
+        void setAmp		(float a);  
+        void setBW		(float b);           
+        void setMod		(int m);           
+        void setID		(uint8_t i); 
         
         /// GETTERS           
         float getFreq() { printf("\nSignal frequency:\t%.4f GHz\n",freq); return freq; } 

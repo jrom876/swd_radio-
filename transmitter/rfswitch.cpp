@@ -8,12 +8,12 @@
  * REQUIREMENTS:
  * 	0. must have a setpoint or reference voltage and a way to change it
  * 	1. must have a pk-pk signal amplitude input
- * 	2. must have a compare() function to trigger the switch
+ * 	2. must have a compare() function to trigger switch
  * 	3. must have a toggle switch function
  * 	4. public setters and getters
  * 	5. private uint8_t attenuator output to ATTENUATOR objects
  * 	6. assume neglegible pass through attenuation
- * 	7. assume 50 Ohms input and output Impedances
+ * 	7. assume 50 Ohms input and output Impedance
  * **/
 
 // g++ -g -std=c++20 -o rfswitch rfswitch.cpp -lm -lrt
@@ -52,8 +52,8 @@ RFSWITCH::RFSWITCH() {
 	RFSWITCH::ampl_in 	= 0.707; 	// amplitude of input signal
 	RFSWITCH::swt	 	= false;	// switch state, On/Off
 	RFSWITCH::setpt 	= 1.0;		// set point reference voltage
-	RFSWITCH::atten 	= 0x0; 		// uint8_t 8-bit attenuator output
-	RFSWITCH::mask 		= 0x55;		// attenuator mask, uint8_t output
+	RFSWITCH::atten 	= 0x0; 		// uint8_t 8-bit attenuator outputmask
+	RFSWITCH::mask 		= 0x55;		// set point uint8_t output
 	
 	RFSWITCH::ref_v 	= 5.0;
 	RFSWITCH::hyster	= 0.05;
@@ -179,7 +179,7 @@ bool RFSWITCH::flip_switch () {
 
 // These virtual comparators have a 5% hysteresis, meaning they toggle the switch
 // at (setpoint - 5%) = 95% of the setpoint to allow for overdamped responses.
-// We do not toggle at (setpoint + 5%) because our signal must never get that high.
+// We do not toggle at (setpoint + 5% because our signal must never get that high.
 
 bool RFSWITCH::compare_ain_to_setpt() {	
 	bool match = false;
@@ -209,11 +209,11 @@ bool RFSWITCH::compare_ain_to_setpt(float ain, float sp, float hys) {
 	
 	if (ain >= (sp * (1 - hysteresis))) {
 		match = true;
-		printf("ain >= setpt:\t\t%d\n",match);	// DBPRINT
+		printf("ain >= setpt:\t%d\n",match);	// DBPRINT
 	}
 	else if (ain < (sp * (1 - hysteresis))) {
 		match = false; 
-		printf("ain < setp:\t\t%d\n",match);	// DBPRINT
+		printf("ain < setp:\t%d\n",match);	// DBPRINT
 	}	
 	setSwitch(match);
 	return match;
@@ -229,8 +229,8 @@ bool RFSWITCH::compare_ain_to_setpt(float ain, float sp, float hys) {
  * */
 
 float adc_calc (int adc_value, 
-		int adc_min, int adc_max, 
-		float out_min, float out_max) {
+						int adc_min, int adc_max, 
+						float out_min, float out_max) {
 	float adcResult = (( ((adc_value - adc_min)*(out_max-out_min)) / (adc_max-adc_min) ) + out_min);	
 	printf("\nadcResult: %f\n\n", adcResult);
 	return adcResult;
@@ -240,7 +240,7 @@ float adc_calc (int adc_value,
 //~ //// adcResult = (( ((adc_value - adc_min)*(out_max-out_min)) / (adc_max-adc_min) ) + out_min);
 
 float scaleAndShift (float in_value, float in_max, float in_min, 
-			float out_max, float out_min) {
+					float out_max, float out_min) {
 	float ssResult = (( ((in_value - in_min)*(out_max-out_min)) / (in_max-in_min) ) + out_min);
 	printf("Scaled and shifted result:\t%.4f\n", ssResult);
 	return ssResult;

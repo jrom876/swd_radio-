@@ -25,9 +25,9 @@ ATTENUATOR::Attenuator DUMMY_ATT = {1,0};
 
 // Default Constructor
 ATTENUATOR::ATTENUATOR() {
-	ATTENUATOR::sig_in 	= 1; 	// GHz
-	ATTENUATOR::atten 	= 0x01; // hex value
-	ATTENUATOR::mask 	= 0xFF; // hex value
+	ATTENUATOR::sig_in 		= 1; 	// GHz
+	ATTENUATOR::atten 		= 0x01; // hex value
+	ATTENUATOR::mask 		= 0xFF; // hex value
 	ATTENUATOR::sig_out 	= (sig_in * GIGA)/(ATTENUATOR::atten & ATTENUATOR::mask); 	// GHz
 };
 
@@ -36,9 +36,9 @@ ATTENUATOR::~ATTENUATOR() {std::cout << "Attenuator Destructor is executed\n";};
 
 // Parameterized Constructor
 ATTENUATOR::ATTENUATOR(struct Attenuator att) {
-	ATTENUATOR::sig_in	= att.sig_in;	// 
-	ATTENUATOR::atten 	= att.atten;	// 
-	ATTENUATOR::mask 	= att.mask;	// 
+	ATTENUATOR::sig_in	 	= att.sig_in;	// 
+	ATTENUATOR::atten 		= att.atten;	// 
+	ATTENUATOR::mask 		= att.mask;	// 
 	ATTENUATOR::sig_out 	= att.sig_out;	// 
 };
         

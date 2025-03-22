@@ -11,27 +11,27 @@
 class ATTENUATOR {
     public:		
     
-	float 		sig_in; 	// Current freq setting of Attenuator
-	uint8_t		atten; 		// output - Attenuator setting, 2^8 range 	
-	uint8_t		mask;		// input - Cutoff Set Point, 2^8 range 	
-	float 		sig_out; 	// output signal (this may become a class)
-				
-	struct Attenuator {
 		float 		sig_in; 	// Current freq setting of Attenuator
 		uint8_t		atten; 		// output - Attenuator setting, 2^8 range 	
 		uint8_t		mask;		// input - Cutoff Set Point, 2^8 range 	
 		float 		sig_out; 	// output signal (this may become a class)
-	}attenuator;
-	
-	/// CONSTRUCTORS
-	ATTENUATOR();
-	ATTENUATOR(struct Attenuator attenuator);
 				
-	/// DESTRUCTOR
-	virtual ~ATTENUATOR();
+		struct Attenuator {
+			float 		sig_in; 	// Current freq setting of Attenuator
+			uint8_t		atten; 		// output - Attenuator setting, 2^8 range 	
+			uint8_t		mask;		// input - Cutoff Set Point, 2^8 range 	
+			float 		sig_out; 	// output signal (this may become a class)
+		}attenuator;
+	
+		/// CONSTRUCTORS
+		ATTENUATOR();
+		ATTENUATOR(struct Attenuator attenuator);
+				
+		/// DESTRUCTOR
+		virtual ~ATTENUATOR();
 		
-	/// SETTERS   
-        void setSig	(float s);           
+		/// SETTERS   
+        void setSig		(float s);           
         void setAtten	(float a);  
         void setMask	(float m);           
         void setSout	(float o); 

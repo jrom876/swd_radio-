@@ -3,12 +3,6 @@
 //	File:		filter.cpp
 // 	Purpose:	Define the Transmitter's Filter Class
 // 	Author:		jrom876
-//	Description:	Bandpass Gaussian Filter Simulator, will be augmented with
-//			code options to generate various types of bandpass filters. 
-//			Options will include 3-element and 2-element, Impedance-matched 
-//			Chebychev, Butterworth and Bessel bandpass filters. 
-//			See bpf3Calc.c at link below:
-// 	https://github.com/jrom876/sciCalc/blob/master/sciCalc-master/sciCalc/bpf3Calc.c
 
 /// C++ Libraries
 #include <cmath>
@@ -27,11 +21,11 @@ FILTER::Filter DUMMY_FILTER = {1.2,250,20,-85,50, 0.12};
 
 // Default Constructor
 FILTER::FILTER() {	
-	FILTER::freq_in		= 1.2; 	// Center freq in GHz
+	FILTER::freq_in		= 1.2; 	// Current freq setting in GHz
 	FILTER::pwr_limit	= 25; 	// Power limit in Watts
 	FILTER::gain		= 27; 	// gain or loss in dB
 	FILTER::noise		= -85; 	// noise in dB
-	FILTER::freq_out	= 1.2;	// Filtered output signal
+	FILTER::freq_out	= 1.2;	// Attenuated output signal
 	FILTER::bandwidth	= 0.12;	// Bandwidth	
 };
 
@@ -49,7 +43,7 @@ FILTER::FILTER(struct Filter filt) {
 };
   
 //~ float FILTER::setFreq		(float f)	{ freq_in = f; 		return freq_in; };        
-//~ float FILTER::setPwrLimit		(float p)	{ pwr_limit = p; 	return pwr_limit; };       
+//~ float FILTER::setPwrLimit	(float p)	{ pwr_limit = p; 	return pwr_limit; };       
 //~ float FILTER::setGain		(float g)	{ gain = g; 		return gain; };        
 //~ float FILTER::setNoise		(float n)	{ noise = n; 		return noise; };  
 //~ float FILTER::setFout		(float f)	{ freq_out = f; 	return freq_out; }; 

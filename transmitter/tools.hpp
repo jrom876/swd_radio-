@@ -3,6 +3,7 @@
 #ifndef TOOLS_HPP
 #define TOOLS_HPP
 
+
 #include <bitset>
 #include <iostream>
 #include <cstdint>
@@ -50,13 +51,13 @@
  * The MICS band is broken into 300 kHz wide channels.
  * 
 **/
-#define MICS_MIN		float(402.0*MEGA)	// Lower limit of MICS Band in MHz
-#define MICS_MAX		float(405.0*MEGA)	// Upper limit of MICS Band in MHz
-#define MICS_CH_BW		float(300.0*KILO)	// MICS is broken into 300kHz wide channels
-#define MICS_CH_NUM		int((MICS_MAX - MICS_MIN) / MICS_CH_BW)	// MICS has 10 channels
+#define MICS_MIN			float(402.0*MEGA)	// Lower limit of MICS Band in MHz
+#define MICS_MAX			float(405.0*MEGA)	// Upper limit of MICS Band in MHz
+#define MICS_CH_BW			float(300.0*KILO)	// MICS is broken into 300kHz wide channels
+#define MICS_CH_NUM			int((MICS_MAX - MICS_MIN) / MICS_CH_BW)	// MICS has 10 channels
 #define MICS_CH_VAL(num)	((num >= 0) && (num < MICS_CH_NUM)) \
-				? float(MICS_MIN + (num*(MICS_CH_BW)) + (0.5*MICS_CH_BW)) \
-				: float(MICS_MIN) + (0.5*MICS_CH_BW)
+							? float(MICS_MIN + (num*(MICS_CH_BW)) + (0.5*MICS_CH_BW)) \
+							: float(MICS_MIN) + (0.5*MICS_CH_BW)
 
 /*
  * General Tools from my Toolbox
