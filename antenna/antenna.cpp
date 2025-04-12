@@ -4,9 +4,9 @@
 // 	Purpose:	Define the Antenna Class
 // 	Author:		jrom876
 
-///*************
+///********************
 ///	THE ANTENNA
-///*************
+///********************
 
 /**
  * 	ANTENNA APERATURE EQUATIONS
@@ -16,7 +16,7 @@
  * 	Ptx = p * Aeff
  * 
  * 	Aeff = ((lam^2)/(4*pi)) * Gain
- *		 = ((c^2)/(4*pi*f)) * Gain
+ *		= ((c^2)/(4*pi*f)) * Gain
  * 	
  * 	ANTENNA POLARIZATION EQUATIONS
  * 	https://www.antenna-theory.com/basics/polarization.php
@@ -93,7 +93,7 @@ ANTENNA::ANTENNA(enum ANT_POL p,enum ANT_TYPE t,float g,float f,float e,float b,
 	gain 	= g; 	// Gain of RX Antenna in dB
 	freq 	= f;	// Center Frequency in MHz
 	eff 	= e;	// Antenna Efficiency %
-	bw 		= b;	// Antenna Bandwidth
+	bw 	= b;	// Antenna Bandwidth
 	area 	= a;	// Effective Aperature Area
 	zin 	= z;	// Impedance of Antenna
 };
@@ -131,14 +131,14 @@ float ANTENNA::setZin(float z){zin = z;return zin;};
 int main(int argc, char const *argv[]) {
 	ANTENNA ant1 = ANTENNA();
 	ANTENNA ant2 = ANTENNA(
-					ANTENNA::horiz, // Polarity
-					ANTENNA::mono,	// Type
-					1.0,			// Gain
-					2.4,			// Freq
-					0.9,			// Efficiency
-					1.0,			// Bandwidth
-					1.0,			// Aperature Effective Area
-					50.0);			// Impedance
+			ANTENNA::horiz, // Polarity
+			ANTENNA::mono,	// Type
+			1.0,			// Gain
+			2.4,			// Freq
+			0.9,			// Efficiency
+			1.0,			// Bandwidth
+			1.0,			// Aperature Effective Area
+			50.0);			// Impedance
 	
 	//~ ant1.setPol(ant1.getPol());
 	//~ ant1.setType(ant1.getType());
@@ -152,13 +152,3 @@ int main(int argc, char const *argv[]) {
 	
 	return 0;
 }
-
-
-//~ struct UNIT_VECTOR {
-	//~ float 	x_val;	// x coordinate / magnitude
-	//~ float 	y_val;	// y coordinate / magnitude
-	//~ float 	z_val;	// z coordinate / magnitude
-	//~ float 	mag;	// magnitude
-//~ };
-
-// Functions //
