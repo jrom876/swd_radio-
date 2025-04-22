@@ -52,8 +52,8 @@ RFSWITCH::RFSWITCH() {
 	RFSWITCH::ampl_in 	= 0.707; 	// amplitude of input signal
 	RFSWITCH::swt	 	= false;	// switch state, On/Off
 	RFSWITCH::setpt 	= 1.0;		// set point reference voltage
-	RFSWITCH::atten 	= 0x0; 		// uint8_t 8-bit attenuator outputmask
-	RFSWITCH::mask 		= 0x55;		// set point uint8_t output
+	RFSWITCH::atten 	= 0x0; 		// uint8_t 8-bit attenuator output
+	RFSWITCH::mask 		= 0x55;		// set point uint8_t output mask
 	
 	RFSWITCH::ref_v 	= 5.0;
 	RFSWITCH::hyster	= 0.05;
@@ -67,10 +67,10 @@ RFSWITCH::~RFSWITCH() {std::cout << "RFSwitch Destructor\n";};
 RFSWITCH::RFSWITCH(struct RFSwitch att) {
 	RFSWITCH::freq_in 	= att.freq_in;	// 
 	RFSWITCH::ampl_in 	= att.ampl_in;	// 
-	RFSWITCH::swt 		= att.swt;		//		
+	RFSWITCH::swt 		= att.swt;	//		
 	RFSWITCH::setpt 	= att.setpt;	//		
 	RFSWITCH::atten 	= att.atten;	//		
-	RFSWITCH::mask 		= att.mask;		//	
+	RFSWITCH::mask 		= att.mask;	//	
 };
 
 /////////////////////////
