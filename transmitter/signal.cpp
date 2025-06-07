@@ -26,9 +26,9 @@ float tempf;	// Needed for writing data to file
 SIGNAL::SIGNAL() {
 	SIGNAL::freq 	= 4.8; 		// GHz
 	SIGNAL::amp 	= 0.25; 	// mVpp
-	SIGNAL::bw 		= freq/10; 	// GHz
-	SIGNAL::modul 	= 1; 		// Mod Type
-	SIGNAL::id 		= 0x01;		// unique identifier
+	SIGNAL::bw 	= freq/10; 	// GHz
+	SIGNAL::modul 	= 1; 		// Modulation Type
+	SIGNAL::id 	= 0x01;		// unique identifier
 };
 
 // DESTRUCTOR
@@ -37,15 +37,15 @@ SIGNAL::~SIGNAL() {std::cout << "Signal Destructor is executed\n";};
 SIGNAL::SIGNAL(struct Signal sig) {
 	SIGNAL::freq 	= sig.freq;	
 	SIGNAL::amp 	= sig.amp;	 
-	SIGNAL::bw 		= sig.bw;	
+	SIGNAL::bw 	= sig.bw;	
 	SIGNAL::modul 	= sig.modul;
-	SIGNAL::id 		= sig.id;
+	SIGNAL::id 	= sig.id;
 };
         
 void SIGNAL::setFreq(float f)	{ freq = f; };          
 void SIGNAL::setAmp(float a)	{ amp = a; };         
-void SIGNAL::setBW(float b)		{ bw = b; };
-void SIGNAL::setMod(int m)		{ modul = m; }; 
+void SIGNAL::setBW(float b)	{ bw = b; };
+void SIGNAL::setMod(int m)	{ modul = m; }; 
 void SIGNAL::setID(uint8_t i) 	{ id = i; }; 
 	
 /// Main ///
