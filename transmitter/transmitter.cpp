@@ -64,9 +64,9 @@ OUTAMP::Outamp oa0 = {1.2,250,20,-85,50};
 //~ CLOCK clk2 = CLOCK(clk0);
 //~ DDS 		dds1;
 //~ FILTER 		flt1;
-//~ ATTENUATOR 	att1;
+//~ ATTENUATOR 		att1;
 //~ PREAMP 		pa1;
-//~ RFSWITCH 	sw1;
+//~ RFSWITCH 		sw1;
 //~ OUTAMP		oa1;
 	
 
@@ -153,11 +153,11 @@ int main(int argc, char const *argv[]) {
 	//~ TRANSMITTER::Transmitter testStruct = {100.0,10.0,10.0,0.5,1.2,50.0};	
 	//~ TRANSMITTER	t1 = TRANSMITTER();	
 	
-	TRANSMITTER* 	t1;		
+	TRANSMITTER* 		t1;		
 	CLOCK* 			clk1;
 	DDS* 			dds1;
 	FILTER* 		fil1;
-	ATTENUATOR* 	att1;
+	ATTENUATOR* 		att1;
 	PREAMP* 		pa1;
 	RFSWITCH* 		sw1;
 	OUTAMP* 		oa1;
@@ -209,23 +209,22 @@ int main(int argc, char const *argv[]) {
 	
 	////////////////////////////////
 	
-	//~ TRANSMITTER t2;	
 	//~ TRANSMITTER 	t2;	
-	//~ CLOCK 			clk2;	
-	//~ DDS* 			dds2;
-	//~ FILTER* 	fil2;
-	//~ ATTENUATOR* att2;
-	//~ PREAMP* 	pa2;
-	//~ RFSWITCH* 	sw2;
-	//~ OUTAMP* 	oa2;
+	//~ CLOCK 		clk2;	
+	//~ DDS* 		dds2;
+	//~ FILTER* 		fil2;
+	//~ ATTENUATOR* 	att2;
+	//~ PREAMP* 		pa2;
+	//~ RFSWITCH* 		sw2;
+	//~ OUTAMP* 		oa2;
 	
 	//~ TRANSMITTER t2 (OUTAMP 			oa2 = OUTAMP(), 
-					//~ RFSWITCH		sw2 = RFSWITCH(),
-					//~ PREAMP			pa2 = PREAMP(),
-					//~ ATTENUATOR		att2 = ATTENUATOR(),
-					//~ FILTER			fil2 = FILTER(),
-					//~ DDS				dds2 = DDS(),
-					//~ CLOCK			clk2 = CLOCK()) ;
+					//~ RFSWITCH	sw2 = RFSWITCH(),
+					//~ PREAMP	pa2 = PREAMP(),
+					//~ ATTENUATOR	att2 = ATTENUATOR(),
+					//~ FILTER	fil2 = FILTER(),
+					//~ DDS		dds2 = DDS(),
+					//~ CLOCK	clk2 = CLOCK()) ;
 	
 	//~ clk2->setFout(2.5);
 	
@@ -234,13 +233,13 @@ int main(int argc, char const *argv[]) {
 	//~ t2.clk2.getFout();
 	
 	//~ TRANSMITTER t2 = TRANSMITTER(	
-				//~ OUTAMP			oa, 
+				//~ OUTAMP		oa, 
 				//~ RFSWITCH		rfsw,
-				//~ PREAMP			pa,
+				//~ PREAMP		pa,
 				//~ ATTENUATOR		att,
-				//~ FILTER			flt,
-				//~ DDS				ds,
-				//~ CLOCK			clk) {};
+				//~ FILTER		flt,
+				//~ DDS			ds,
+				//~ CLOCK		clk) {};
 	
 	//~ CLOCK::CLOCK() {};
 	//~ CLOCK ck1 = CLOCK();
@@ -248,21 +247,21 @@ int main(int argc, char const *argv[]) {
 	//~ TRANSMITTER t2 = TRANSMITTER(testStruct);	
 	
 	//~ TRANSMITTER(OUTAMP			oa, 
-				//~ RFSWITCH		sw,
-				//~ PREAMP			pa,
-				//~ ATTENUATOR		att,
-				//~ FILTER			fil,
-				//~ DDS				dds,
-				//~ CLOCK			clk);
+				//~ RFSWITCH	sw,
+				//~ PREAMP	pa,
+				//~ ATTENUATOR	att,
+				//~ FILTER	fil,
+				//~ DDS		dds,
+				//~ CLOCK	clk);
 		
 	//~ TRANSMITTER t3 = TRANSMITTER(
-				//~ OUTAMP			oa, 
+				//~ OUTAMP		oa, 
 				//~ RFSWITCH		sw,
-				//~ PREAMP			pa,
+				//~ PREAMP		pa,
 				//~ ATTENUATOR		att,
-				//~ FILTER			fil,
-				//~ DDS				dds,
-				//~ CLOCK			clk);	
+				//~ FILTER		fil,
+				//~ DDS			dds,
+				//~ CLOCK		clk);	
 	
 	
 		
@@ -271,8 +270,8 @@ int main(int argc, char const *argv[]) {
 		//~ TRANSMITTER::outamp	oamp = {1.2,500,10.0,-83.0,50.0}, 
 		//~ TRANSMITTER::preamp	pamp = {1.2,500,10.0,-83.0,50.0},
 		//~ TRANSMITTER::atten	att = {1.2,1.0,50.0},
-		//~ TRANSMITTER::dds		ds = {0.15,[0,0,1,0,0,0,0,0],[1,0,0,1],50.0},
-		//~ TRANSMITTER::clock		clk = {0.15,-83.0,-83.0}
+		//~ TRANSMITTER::dds	ds = {0.15,[0,0,1,0,0,0,0,0],[1,0,0,1],50.0},
+		//~ TRANSMITTER::clock	clk = {0.15,-83.0,-83.0}
 	//~ };
 	//~ TRANSMITTER t3 = TRANSMITTER(testStruct3);
 	
@@ -295,13 +294,13 @@ int main(int argc, char const *argv[]) {
 	//~ t2.txPwrWatts(100.0, 10.0, 10.0, 50.0, 1.2);
 	//~ t2.txPwrDBM(20, 10.0, 10.0, 50.0, 1.2);
 	//~ RECEIVER rcvr2 = RECEIVER(
-					//~ RECEIVER::horiz, // Polarity
+					//~ RECEIVER::horiz, 	// Polarity
 					//~ RECEIVER::mono,	// Type
-					//~ 1.0,			// Gain
-					//~ 2.4,			// Freq
-					//~ 0.9,			// Efficiency
-					//~ 1.0,			// Bandwidth
-					//~ 0.01);			// Aperature Effective Area
+					//~ 1.0,		// Gain
+					//~ 2.4,		// Freq
+					//~ 0.9,		// Efficiency
+					//~ 1.0,		// Bandwidth
+					//~ 0.01);		// Aperature Effective Area
 	
 	//~ rcvr1.setPol(rcvr1.getPol());
 	//~ ant1.setType(ant1.getType());
